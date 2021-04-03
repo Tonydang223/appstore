@@ -1,0 +1,90 @@
+.product__details {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 50px 40px;
+    border: 1px solid #eee;
+    overflow: hidden;
+    box-shadow: 2px 8px 20px #ddd;
+    img {
+        max-width: 700px;
+        width: 100%;
+        display: block;
+        object-fit: cover;
+        height: 100%;
+        max-height: 700px;
+    }
+    .product__details--content {
+        max-width: 700px;
+        min-width: 290px;
+        margin: 25px;
+        .product__content--above {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            align-items: center;
+            h2 {
+                text-transform: uppercase;
+                letter-spacing: 2px;
+            }
+            span {
+                color: crimson;
+                font-size: 30px;
+            }
+        }
+        .product__content--below {
+            .availableSizes__Color {
+                margin-top: 10px;
+                button {
+                    width: 50px;
+                    height: 50px;
+                    border: 1px solid #333;
+                    outline: none;
+                    margin-right: 5px;
+                    cursor: pointer;
+                }
+            }
+            .product__below--count {
+                input {
+                    width: 35px;
+                    height: 35px;
+                }
+                button {
+                    margin: 0 10px;
+                    letter-spacing: 1px;
+                    width: 40px;
+                    height: 40px;
+                    border: 1px solid #555;
+                    outline: none;
+                    cursor: pointer;
+                }
+            }
+            .product__below--btn {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-end;
+
+                a {
+                    color: black;
+                    text-decoration: none;
+                    letter-spacing: 1px;
+                }
+                :hover {
+                    text-decoration: underline;
+                }
+
+                .cart {
+                    background: #333;
+                    text-decoration: none;
+                    color: white;
+                    padding: 10px 25px;
+                    display: inline-block;
+                    cursor: pointer;
+                }
+            }
+        }
+        .cart {
+        }
+    }
+}

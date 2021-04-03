@@ -1,0 +1,90 @@
+header {
+    min-height: 70px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    overflow: hidden;
+    border: 1px solid black;
+    .header__menu {
+        cursor: pointer;
+        display: none;
+    }
+    .header__logo {
+        a {
+            text-decoration: none;
+            text-transform: uppercase;
+            color: black;
+        }
+    }
+    .header__navbar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        ul {
+            li {
+                list-style: none;
+                display: inline-block;
+                a {
+                    text-decoration: none;
+                    text-transform: uppercase;
+                    color: #555;
+                    padding: 0 15px;
+                }
+                :hover {
+                    color: lightseagreen;
+                }
+            }
+            .header__nav--close {
+                cursor: pointer;
+                display: none;
+            }
+        }
+        .header__nav--cart {
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            span {
+                position: absolute;
+                top: -15px;
+                right: -10px;
+                background: crimson;
+                font-size: 10px;
+                color: white;
+                padding: 3px 5px;
+                border-radius: 50%;
+                z-index: -1;
+            }
+        }
+    }
+}
+@media (max-width: 650px) {
+    header {
+        .header__menu {
+            display: block;
+        }
+        .header__navbar {
+            ul {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                flex-direction: column;
+                background: white;
+                z-index: 999;
+                opacity: 0.97;
+                transition: 0.5s;
+                .header__nav--close {
+                    display: block;
+                    position: absolute;
+                    top: 10px;
+                    right: 20px;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,74 @@
+.productManagement__wrapper {
+    .productManagement__wrapper--above {
+        button {
+            padding: 10px 10px;
+            background: #004040;
+            border: none;
+            outline: none;
+            height: 40px;
+            display: block;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            a {
+                color: aliceblue;
+                text-decoration: none;
+            }
+            :hover {
+                text-decoration: underline;
+            }
+        }
+    }
+    .productManagement__wrapper--below {
+        h2 {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .productManagement__wrapper--content {
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 1.1rem;
+                thead {
+                    th {
+                        padding: 15px;
+                        text-align: left;
+                        border-bottom: 1px solid #d3d3d3;
+                    }
+                }
+                tbody {
+                    tr {
+                        border-bottom: 1px solid #dddddd;
+                        td {
+                            padding: 15px;
+                            border-bottom: 1px solid #d3d3d3;
+                            .img {
+                                img {
+                                    max-width: 300px;
+                                    width: 100%;
+                                    height: 100%;
+                                    max-height: 300px;
+                                    display: block;
+                                    object-fit: cover;
+                                }
+                            }
+                            ul{
+                                list-style: none;
+                                cursor: pointer;
+                                li{
+                                    padding: 5px 10px;
+                                    background: #d3d3d3;
+                                    color: black;
+                                    font-size: 18px;
+                                }
+                                :hover{
+                                    text-decoration: underline;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
