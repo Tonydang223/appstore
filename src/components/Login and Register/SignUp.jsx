@@ -1,10 +1,27 @@
 import { Button } from '@material-ui/core';
 import { Form, Formik } from 'formik';
-import React from 'react'
 import { Link } from 'react-router-dom';
 import TextFields from './TextFields';
+import api from '../../api/api';
+import React, { useContext, useEffect, useState } from 'react'
+import { UsersContext } from '../../contexts/UsersContext';
 
 const SignUp = () => {
+    const {error,users,submit} = useContext(UsersContext);
+    console.log(users);
+    
+
+
+// const addUsers = async (values) => {
+//     try {
+//             console.log(values)
+//             const res = api.post("/users",values)
+//             setUsers([...users,res.data])
+//     } catch (error) {
+//         console.log(error.message);
+//     }
+
+// } 
     return (
         <div>
             <h1>SIGN UP</h1>
@@ -51,7 +68,10 @@ const SignUp = () => {
             return errors;
         }}
        onSubmit={(values) => {
-         console.log(values)
+         console.log(values);
+         submit(values)
+         
+
        }}
      >
        {({
@@ -74,6 +94,8 @@ const SignUp = () => {
                <Button type='reset'>Reset</Button>
                <span className="form-input-login">
                  Already to access the system! Login
+                 <br/>
+                 {error&&error}
                  <ul>
                    <li>
                     <Link to="/signIn">here</Link>

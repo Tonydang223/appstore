@@ -3,8 +3,13 @@ import { Link, useHistory } from "react-router-dom";
 import { ProductContext } from "../../contexts/ProductContext";
 import formatCurrency from "../../util";
 
-const ManageProduct = (props) => {
-  const {products,removeProduct,updateProduct } = useContext(ProductContext);
+const ManageProduct = ({ show, setShow }) => {
+  const { products, removeProduct, updateProduct,setProducts } = useContext(ProductContext);
+  const onClick = (product)=>{
+    setShow(true);
+    setProducts(product);
+    console.log(product);
+  }
   return (
     <div className="productManagement__wrapper--content">
       <table>
@@ -19,7 +24,7 @@ const ManageProduct = (props) => {
           </tr>
         </thead>
         <tbody>
-          {products.map((product) => (
+          {products.map(product => (
             <tr key={product.id}>
               <td>{product.id}</td>
               <td>
@@ -32,13 +37,14 @@ const ManageProduct = (props) => {
               <td>{product.price}</td>
               <td>
                 <ul>
-                  <li>
-                      Edit</li>
+                  <li onClick={()=>setShow(true)}>
+                    <Link to={`/admin/productManagement/edit/${product.id}`}>Edit</Link>
+                  </li>
                 </ul>
               </td>
               <td>
                 <ul>
-                  <li onClick={() =>removeProduct(product.id)}>Delete</li>
+                  <li onClick={() => removeProduct(product.id)}>Delete</li>
                 </ul>
               </td>
             </tr>

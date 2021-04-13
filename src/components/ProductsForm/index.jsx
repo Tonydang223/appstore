@@ -1,23 +1,25 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { ProductContext } from '../../contexts/ProductContext';
 import { Checkbox } from '@material-ui/core';
 
 
 
+
 const ProductForm = () => {
-    const{addProducts} = useContext(ProductContext)
+  
+    const{addProduct,products} = useContext(ProductContext)
     return (
         <div>
     <Formik
       initialValues={{
-        image: "",
-        title: "",
-        category: "",
-        description: "",
-        availableSizes: [],
-        discount:"",
-        price: "",
+        image:'',
+        title:'',
+        category:'',
+        description:'',
+        availableSizes:[],
+        discount:'',
+        price:'',
       }}
       validate = {values => {
           var errors = {}
@@ -39,12 +41,15 @@ const ProductForm = () => {
           if(!values.price.trim()){
             errors.price = "Price Required"
           }
+          if(!values.image.trim()){
+            errors.image = "Image Required"
+          }
           
           return errors;
       }}
       onSubmit={(values,{resetForm}) => {
           console.log(values);
-          addProducts(values);
+          addProduct(values);
           resetForm({values:''})
       }}
     >
@@ -86,6 +91,8 @@ const ProductForm = () => {
           <ErrorMessage name="description" component="div"/>
           <br />
           <label>AvailableSize</label>
+          <div>
+          <label>XL</label>
           <Field
             type="checkbox"
             name="availableSizes"
@@ -93,6 +100,7 @@ const ProductForm = () => {
             as={Checkbox}
             value="XL"
           />
+          <label>M</label>
           <Field
             type="checkbox"
             name="availableSizes"
@@ -100,6 +108,7 @@ const ProductForm = () => {
             as={Checkbox}
             value="M"
           />
+          <label>L</label>
           <Field
             type="checkbox"
             name="availableSizes"
@@ -107,6 +116,7 @@ const ProductForm = () => {
             as={Checkbox}
             value="L"
           />
+          <label>XXL</label>
           <Field
             type="checkbox"
             name="availableSizes"
@@ -114,6 +124,24 @@ const ProductForm = () => {
             as={Checkbox}
             value="XXL"
           />
+          <label>XS</label>
+          <Field
+            type="checkbox"
+            name="availableSizes"
+            label="AvailableSizes"
+            as={Checkbox}
+            value="XS"
+          />
+          <label>S</label>
+          <Field
+            type="checkbox"
+            name="availableSizes"
+            label="AvailableSizes"
+            as={Checkbox}
+            value="S"
+          />
+          </div>
+          
           <ErrorMessage name="availableSizes" component="div"/>
           <br />
           <label>Discount</label>
@@ -131,7 +159,7 @@ const ProductForm = () => {
           <br />
           <label>Image</label>
           <Field
-            type="file"
+            type="text"
             name="image"
             label="image"
             values={values.image}

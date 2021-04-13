@@ -1,11 +1,15 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Link, useRouteMatch } from "react-router-dom";
 const AdminHeader = () => {
+  const {url} = useRouteMatch();
   return (
     <div>
       <ul>
         <li>
           <Link to="/admin/productManagement">Manage Product </Link>
+        </li>
+        <li>
+          <Link to="/admin/accountManagement">Manage Accounts </Link>
         </li>
         <li>
           <Link to="/admin/contactManagement">Manage Contact </Link>

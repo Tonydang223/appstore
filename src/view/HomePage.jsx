@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Admin from "../components/Admin";
 import Cart from "../components/Cart";
@@ -13,10 +13,14 @@ import "../css/HomePage.scss";
 import Form from "../components/Login and Register/SignUp"
 import SignIn from "../components/Login and Register/SignIn";
 import SignUp from "../components/Login and Register/SignUp"
+import api from "../api/api";
+import UsersContextProvider from "../contexts/UsersContext";
+import ContactContextProvider from "../contexts/ContactContext";
 const HomePage = () => {
   return (
-    <Fragment>
       <div className="grid-container">
+        <ContactContextProvider>
+        <UsersContextProvider>
         <ProductContextProvider>
           <Router>
             <Header />
@@ -37,25 +41,26 @@ const HomePage = () => {
                 <Contact />
               </Route>
               <Route exact path="/loginandRegister">
-                <Form/>
+                <SignUp />
               </Route>
               <Route exact path="/signIn">
-                  <SignIn/>
+                  <SignIn />
               </Route>
               <Route exact path="/signUp">
-                  <SignUp/>
+                  <SignUp />
               </Route>
               <Route exact path="/product/:id">
                 <ProductDetails />
               </Route>
-              <Route exact path="/admin">
+              <Route path="/admin">
                 <Admin />
               </Route>
             </Switch>
           </Router>
         </ProductContextProvider>
+        </UsersContextProvider>
+        </ContactContextProvider>
       </div>
-    </Fragment>
   );
 };
 

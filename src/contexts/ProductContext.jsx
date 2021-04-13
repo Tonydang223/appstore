@@ -25,14 +25,10 @@ const ProductContextProvider = ({ children }) => {
   }
   const random = Math.floor(Math.random() *1000)
 
-  const addProduct = async (values,e) => {
+  const addProduct = async (values) => {
     try {
       console.log(values)
-      const request = {
-        id: random,
-        ...values
-      }
-      const res = await api.post("/products",request)
+      const res = await api.post("/products",values)
       setProducts([...products,res.data]);
     } catch (error) {
       console.log(error.message)
@@ -52,11 +48,13 @@ const ProductContextProvider = ({ children }) => {
     }
   }
   const updateProduct = async (values) => {
-    const res = await api.put(`/products/${values.id}`,values)
-    const {id,image,title,category,description,availableSizes,discount,price,}=res.data
-    setProducts(products.map(product =>{
-      return product.id === id ?{...res.data}:product
-    }))
+    const response = await api.put(`/products/${values.id}`, values);
+    const { id, name, email } = response.data;
+    setProducts(
+      products.map((product) => {
+        return product.id === id ? { ...response.data } : product;
+      })
+    );
   }
   // const getProducts = async () => {
   //   try {
@@ -238,6 +236,7 @@ const ProductContextProvider = ({ children }) => {
     category,
     cartItems,
     searchProduct,
+    setProducts,
     updateProduct,
     removeProduct,
     addProduct,

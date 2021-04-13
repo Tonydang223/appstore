@@ -26,7 +26,7 @@
     "yup": "^0.32.9"
   },
   "scripts": {
-    "server": "npx json-server --watch data/data.json --port 3002",
+    "server": "npx json-server --watch data/data.json --port 3002 ",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -49,5 +49,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "json-server": "^0.15.1",
+    "json-server-auth": "^2.0.2"
   }
 }

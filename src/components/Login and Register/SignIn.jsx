@@ -1,13 +1,14 @@
 import { Button } from '@material-ui/core';
 import { Form, Formik } from 'formik';
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react'
+import { Link, useHistory } from 'react-router-dom';
+import { UsersContext } from '../../contexts/UsersContext';
 import TextFields from './TextFields';
 
 const SignIn = () => {
-async function handletition(e){
-    console.log('dadad');
-}
+  const history = useHistory();
+  
+const {submitLogin,error,setError,setShow,setCurrentUser} = useContext(UsersContext);
     return (
         <div>
              <h1>SIGN IN</h1>
@@ -34,8 +35,14 @@ async function handletition(e){
        }}
        onSubmit={(values) => {
          console.log(values);
-         handletition();
-
+         if(submitLogin(values)){
+           setCurrentUser(values.email)
+          setError("");
+          setShow(false);
+           history.push("/")
+         }else{
+            setError("Email is not corrected")
+         }
        }}
      >
        {({
@@ -54,6 +61,8 @@ async function handletition(e){
                <Button type ='submit'>Log In</Button>
                <span className="form-input-login">
                  Already to have an account! SignUp
+                 <br/>
+                 {error&&error}
       
                     <Link to="/signUp">here</Link>
                  

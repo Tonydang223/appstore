@@ -36,8 +36,8 @@ const Home = () => {
                       </Link>
                     </h3>
                     <div className="products__content--price">
-                      <span>{formatCurrency(product.price)}</span>
-                      <p>{formatCurrency(product.discount)}</p>
+                      <span>{product.price}</span>
+                      <p>{product.discount}</p>
                     </div>
                   </div>
                 </div>
