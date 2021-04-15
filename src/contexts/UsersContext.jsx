@@ -8,7 +8,6 @@ const UsersContextProvider = ({children}) => {
     const[users,setUsers] = useState([]);
     const [error,setError] = useState("");
     const [currentUser,setCurrentUser] = useState('')
-    const [show,setShow]= useState(false);
 
     const checkEmail = (serverUsers,formData) =>{
         const users = serverUsers.find(user => user.email === formData.email);
@@ -26,11 +25,8 @@ const UsersContextProvider = ({children}) => {
             setError("Email existed")
         }
         else{
-          const requestDataUsers = {
-            id:random,
-            ...formData
-          }
-           const res = await api.post("/users",requestDataUsers);
+
+           const res = await api.post("/users",formData);
            setError("");
            setUsers([...users,res.data]);
 
@@ -42,12 +38,7 @@ const UsersContextProvider = ({children}) => {
     const users = server.find((user)=>user.email === form.email && user.password === form.password);
     if(users) return users
   }
-  const submitLogin = async (form) => {
-     const getUsers = await api.get("/users").then(res => checkAccount(res.data,form))
-     if(getUsers){
-       return getUsers
-     } 
-  }
+ 
   //remove user
   const removeUsers = async (id) => {
     try {
@@ -71,16 +62,17 @@ const UsersContextProvider = ({children}) => {
     );
   }
 
-    const onClickLogOut=()=>{
-        setShow(true);
-      }
+
+   useEffect(() => {
+     
+      const getItem = JSON.parse(localStorage.getItem("current",currentUser))
+      setCurrentUser(getItem);
+      console.log(getItem);
+   }, [])
     useEffect(() => {
-        const getItem = JSON.parse(localStorage.getItem("users",currentUser))
-        setCurrentUser(getItem)
-       },[]);
-    useEffect(() => {
-         localStorage.setItem("users",JSON.stringify(currentUser))
+        localStorage.setItem("current",JSON.stringify(currentUser))
        },[currentUser])
+
     useEffect(() => {
         const getALL = async ()=>{
             const allUsers = await receive();
@@ -91,16 +83,13 @@ const UsersContextProvider = ({children}) => {
     const UsersContextData={
         users,
         error,
-        show,
         currentUser,
         setError,
-        setShow,
-        submitLogin,
         setCurrentUser,
         submit,
-        onClickLogOut,
         removeUsers,
-        updateUsers
+        updateUsers,
+        checkAccount
     }
     return (
         <UsersContext.Provider value={UsersContextData}>

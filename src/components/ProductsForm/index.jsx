@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { Avatar, Box, Button, Container, CssBaseline, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { ProductContext } from '../../contexts/ProductContext';
 import { Checkbox } from '@material-ui/core';
@@ -7,10 +8,31 @@ import { Checkbox } from '@material-ui/core';
 
 
 const ProductForm = () => {
+  const useStyles = makeStyles((theme) => ({
+    paper: {
+      marginTop: theme.spacing(8),
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    form: {
+      width: '100%', // Fix IE 11 issue.
+      marginTop: theme.spacing(3),
+    },
+    submit: {
+      margin: theme.spacing(3, 0, 2),
+    },
+  }));
+  const classes = useStyles();
   
     const{addProduct,products} = useContext(ProductContext)
     return (
-        <div>
+      <Container component="main" maxWidth="xs" className="container">
+      <CssBaseline/>
+        <div className={classes.paper}>
+        <Typography component="h2" variant="h9">
+            Add Product
+        </Typography>
     <Formik
       initialValues={{
         image:'',
@@ -62,6 +84,7 @@ const ProductForm = () => {
         handleSubmit,
         isSubmitting,
       }) => (
+ 
         <Form>
           <label>Title</label>
           <Field
@@ -148,7 +171,7 @@ const ProductForm = () => {
           <Field type="discount" name="discount" label="Discount" value={values.discount}></Field>
           <ErrorMessage name="discount" component="div"/>
           <br />
-          <lable>Price</lable>
+          <label>Price</label>
           <Field
             type="price"
             name="price"
@@ -172,7 +195,9 @@ const ProductForm = () => {
         </Form>
       )}
     </Formik>
-        </div>
+    </div>
+        </Container>
+
     )
 }
 

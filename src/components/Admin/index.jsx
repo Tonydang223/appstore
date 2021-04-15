@@ -6,7 +6,7 @@ import ContactManagement from "../ContactManagement";
 import OrderManagement from "../OrderManagement";
 import ProductManagement from "../ProductManagement";
 import AdminHeader from "./adminHeader";
-const Admin = ({users,setUsers}) => {
+const Admin = () => {
   return (
     <div className="admin-wrapper">
         <div className="left-sidebar">
@@ -17,10 +17,10 @@ const Admin = ({users,setUsers}) => {
             <Route path="/admin/productManagement">
               <ProductManagement />
             </Route>
-            <Route exact path="/admin/accountManagement">
+            <Route path="/admin/accountManagement">
               <AccountManagement />
             </Route>
-            <Route exact path="/admin/contactManagement">
+            <Route path="/admin/contactManagement">
               <ContactManagement />
             </Route>
             <Route exact path="/admin/orderManagement">

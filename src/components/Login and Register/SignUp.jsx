@@ -1,30 +1,49 @@
-import { Button } from '@material-ui/core';
-import { Form, Formik } from 'formik';
+import { Avatar, Box, Button, Container, CssBaseline, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
+import { ErrorMessage, Form, Formik, useField } from 'formik';
 import { Link } from 'react-router-dom';
 import TextFields from './TextFields';
+import "../../css/Form.scss";
 import api from '../../api/api';
 import React, { useContext, useEffect, useState } from 'react'
 import { UsersContext } from '../../contexts/UsersContext';
+import { LockOutlined } from '@material-ui/icons';
+import Copyright from './Copyright';
 
 const SignUp = () => {
     const {error,users,submit} = useContext(UsersContext);
     console.log(users);
-    
+        const useStyles = makeStyles((theme) => ({
+        paper: {
+          marginTop: theme.spacing(8),
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        },
+        avatar: {
+          margin: theme.spacing(1),
+          backgroundColor: theme.palette.secondary.main,
+        },
+        form: {
+          width: '100%', // Fix IE 11 issue.
+          marginTop: theme.spacing(3),
+        },
+        submit: {
+          margin: theme.spacing(3, 0, 2),
+        },
+      }));
+      const classes = useStyles();
 
 
-// const addUsers = async (values) => {
-//     try {
-//             console.log(values)
-//             const res = api.post("/users",values)
-//             setUsers([...users,res.data])
-//     } catch (error) {
-//         console.log(error.message);
-//     }
-
-// } 
     return (
-        <div>
-            <h1>SIGN UP</h1>
+    <Container component="main" maxWidth="xs" className="container">
+        <CssBaseline/>
+        <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlined/>
+        </Avatar>
+        <Typography component="h1" variant="h5">
+            Sign up
+        </Typography>
      <Formik
        initialValues={{ 
         firstName: '',
@@ -67,11 +86,10 @@ const SignUp = () => {
             }
             return errors;
         }}
-       onSubmit={(values) => {
+       onSubmit={(values,{resetForm}) => {
          console.log(values);
          submit(values)
-         
-
+         resetForm();
        }}
      >
        {({
@@ -84,30 +102,51 @@ const SignUp = () => {
          isSubmitting,
          /* and other goodies */
        }) => (
-           <Form onSubmit={handleSubmit}>
-               <TextFields name="firstName" label="FirstName" type="firstName"></TextFields>
-               <TextFields name="LastName" label="LastName" type="LastName"></TextFields>
-               <TextFields name="email" label="Email" type="email"></TextFields>
-               <TextFields name="password" label="Password" type="password"></TextFields>
-               <TextFields name="ConfirmPassword" label="ConfirmPassword" type="ConfirmPassword"></TextFields>
-               <Button type='submit'>Register</Button>
-               <Button type='reset'>Reset</Button>
-               <span className="form-input-login">
-                 Already to access the system! Login
-                 <br/>
-                 {error&&error}
-                 <ul>
-                   <li>
-                    <Link to="/signIn">here</Link>
-                    </li>
-                    </ul>
-                </span>
-
+           <Form onSubmit={handleSubmit} className={classes.form}>
+         <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+            <TextFields name="firstName" label="FirstName" type="firstName" className="inputBox"
+            placeholder="FirstName"
+            ></TextFields>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+            <TextFields name="LastName" label="LastName" type="LastName" placeholder="LastName" className="inputBox"></TextFields>
+            </Grid>
+            <Grid item xs={12}>
+            <TextFields name="email" label="Email" type="email" placeholder="Email" className="inputBox inputBoxBottom"></TextFields>
+            </Grid>
+            <Grid item xs={12}>
+            <TextFields name="password" label="Password" type="password" placeholder="Password" className="inputBox inputBoxBottom"></TextFields>
+            </Grid>
+            <Grid item xs={12}>
+            <TextFields name="ConfirmPassword" label="ConfirmPassword" type="ConfirmPassword" placeholder="ConfirmPassword" className="inputBox inputBoxBottom"></TextFields>
+            </Grid>
+          </Grid>
+            <Button 
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}>
+            Register
+            </Button>
+            {error&&error}
+            <Grid container justify="flex-end">
+                <Grid item>
+                <Link to="/signIn" variant="body2" href>Already to access the system! Login</Link>
+                </Grid>
+            </Grid>
            </Form>
+       
          
        )}
      </Formik>
-   </div>
+    </div>
+    <Box mt={5}>
+        <Copyright />
+    </Box>
+    </Container>
+        
         
     )
 }

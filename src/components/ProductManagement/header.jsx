@@ -1,5 +1,7 @@
+import { Button } from "@material-ui/core";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import "../../css/RemoveUnderline.scss";
 const Header = ({ show, setShow }) => {
   const onClick = () => {
     setShow(!show);
@@ -8,16 +10,26 @@ const Header = ({ show, setShow }) => {
     setShow(false);
   };
   return (
-    <ul>
+    <ul style={{listStyleType:"none"}}>
       <li>
         {show ? (
-          <Link to="/admin/productManagement" onClick={onClick2}>
-            Back
+
+          <Link to="/admin/productManagement" onClick={onClick2} className="btn-removeUnderline">
+          <Button
+          variant="contained"
+          >
+          <a> Back </a>
+          </Button>
           </Link>
         ) : (
-          <Link to="/admin/productManagement/addProducts" onClick={onClick}>
+          <Button
+          variant="contained"
+          >
+            <Link to="/admin/productManagement/addProducts" onClick={onClick}  className="btn-removeUnderline" >
             Add Product
           </Link>
+          </Button>
+
         )}
       </li>
     </ul>

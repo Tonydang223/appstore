@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ProductContext } from "../../contexts/ProductContext";
+import { UsersContext } from "../../contexts/UsersContext";
 import "../../css/ProductDetails.scss";
 import formatCurrency from "../../util";
 import formatNumber from "../../util2";
@@ -8,6 +9,7 @@ import ProductDetailsCount from "./ProductDetailsCount";
 import ProductSize from "./ProductSize";
 const ProductDetails = () => {
   const { products, handleAddToCartFromDetails } = useContext(ProductContext);
+  const { currentUser } = useContext(UsersContext);
   const { id } = useParams();
   const newProducts = products.filter((newProduct) => newProduct._id === id);
   const productId = newProducts.map((product) => product._id);
@@ -27,7 +29,16 @@ const ProductDetails = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleAddToCartFromDetails(formValue);
+    if (currentUser) {
+      handleAddToCartFromDetails(formValue);
+      setFormValue({
+        count: 0,
+        size: "",
+        _id: "",
+      });
+    } else {
+      alert("You must to login to do that !");
+    }
   };
 
   return (

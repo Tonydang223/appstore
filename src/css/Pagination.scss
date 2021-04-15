@@ -1,0 +1,25 @@
+.pagination {
+    max-width: 100%;
+    height: 40px;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    a {
+        padding: 10px;
+        margin: 8px;
+        border-radius: 5px;
+        border: 1px solid black;
+
+        color: black;
+        cursor: pointer;
+    }
+    .paginationActive {
+        a {
+            background-color: red;
+        }
+    }
+}
+.displayNone {
+    display: none;
+}

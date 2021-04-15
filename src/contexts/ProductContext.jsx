@@ -12,13 +12,14 @@ const ProductContextProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [size, setSize] = useState("");
   const [sort, setSort] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [totalPrice, setTotalPrice] = useState("");
   const [category, setCategory] = useState("");
   const [cartItems, setCartItems] = useState(
     localStorage.getItem("cartItems")
       ? JSON.parse(localStorage.getItem("cartItems"))
       : []
   );
-  const [searchProduct, setSearchProduct] = useState([]);
   const received = async () => {
     const res = await api.get("/products");
     return res.data;
@@ -28,7 +29,11 @@ const ProductContextProvider = ({ children }) => {
   const addProduct = async (values) => {
     try {
       console.log(values)
-      const res = await api.post("/products",values)
+      const requets = {
+        id: random,
+        ...values
+      }
+      const res = await api.post("/products",requets)
       setProducts([...products,res.data]);
     } catch (error) {
       console.log(error.message)
@@ -71,6 +76,17 @@ const ProductContextProvider = ({ children }) => {
     }
     getdatas();
   }, []);
+  const productFilter = (value) => {
+    return value.filter((val) => {
+      if (searchTerm === "") {
+        return val;
+      } else if (val.title.toLowerCase().includes(searchTerm.toLowerCase())) {
+        return val;
+      }
+    });
+  };
+
+
   const handleAddClick = (productValue) => {
     console.log(productValue);
     const currentProduct = cartItems.find((x) => x._id === productValue._id);
@@ -104,6 +120,19 @@ const ProductContextProvider = ({ children }) => {
       );
     }
   };
+  const handleRemoveProductFromAdmin = async (id) => {
+    try {
+      // await axios.delete(`http://localhost:3000/products/${id}`);
+      const productValue = products.filter((product) => product._id !== id);
+      setProducts(productValue);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  const handleClearAll = () => {
+    localStorage.removeItem("cartItems");
+    setCartItems([]);
+  };
   const handleRemoveProduct = (id) => {
     const currentProduct = cartItems.find((x) => x._id === id);
     const cartValue = [...cartItems];
@@ -124,18 +153,23 @@ const ProductContextProvider = ({ children }) => {
       cartValues.push({
         ...productValue,
         count: 1,
+        size: "L",
       });
     } else {
-      const cartName = cartItems.filter((item) => item._id === productValue._id);
-      console.log('cartName', cartName)
+      const cartName = cartItems.filter(
+        (item) => item._id === productValue._id
+      );
+      console.log("cartName", cartName);
       alert(cartName[0].title + " has been in your cart!");
     }
     setCartItems(cartValues);
     localStorage.setItem("cartItems", JSON.stringify(cartValues));
   };
   const handleAddToCartFromDetails = (productValue) => {
-    if (productValue.count === 0 || productValue.size === '') {
+    if (productValue.count === 0) {
       alert("You have to enter your number of product");
+    } else if (productValue.size === "") {
+      alert("You have to choose your size of product before adding to cart");
     } else {
       const currentCartItem = products.filter(
         (x) => x._id === productValue._id
@@ -224,22 +258,21 @@ const ProductContextProvider = ({ children }) => {
     }
   };
   const handleSearchSubmit = (search) => {
-    const searchValue = data.products.filter(
-      (product) => product.title === search
-    );
-    setSearchProduct(searchValue);
+    setSearchTerm(search);
   };
   const productContextData = {
+    updateProduct,
+    removeProduct,
+    addProduct,
+    setProducts,
     products,
     size,
     sort,
     category,
     cartItems,
-    searchProduct,
-    setProducts,
-    updateProduct,
-    removeProduct,
-    addProduct,
+    productFilter,
+    totalPrice,
+    setTotalPrice,
     handleSortProducts,
     handleFilterProducts,
     handleSortCategory,
@@ -249,6 +282,8 @@ const ProductContextProvider = ({ children }) => {
     handleRemoveClick,
     handleRemoveProduct,
     handleSearchSubmit,
+    handleRemoveProductFromAdmin,
+    handleClearAll,
   };
   return (
     <ProductContext.Provider value={productContextData}>

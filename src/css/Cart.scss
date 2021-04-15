@@ -14,6 +14,19 @@
         }
     }
     .cart__container--table {
+        .cart__container--title {
+            max-width: 1300px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+            border-bottom: 1px solid #e1e8ee;
+            padding: 20px 30px;
+            color: #5e6977;
+            font-size: 18px;
+            font-weight: 400;
+            margin: 0 300px;
+        }
         .styled-table {
             border-collapse: collapse;
             margin: 0 auto;
@@ -36,6 +49,7 @@
                     border-bottom: 1px solid #dddddd;
                     td {
                         padding: 12px 15px;
+                        min-width: 100px;
                         .img {
                             img {
                                 max-width: 300px;
@@ -46,15 +60,40 @@
                                 object-fit: cover;
                             }
                         }
-                        .table-btn {
+                        .description {
+                            display: flex;
+                            flex-direction: column;
+                            width: 250px;
+                            h1 {
+                                font-weight: bold;
+                                font-size: 18px;
+                            }
+                            p {
+                                font-size: 15px;
+                            }
+                        }
+                        .price {
                             display: flex;
                             justify-content: space-around;
+                            align-items: center;
+                            i {
+                                text-decoration: line-through;
+                            }
+                        }
+                        .quantity {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
                             button {
-                                width: 40px;
+                                width: 30px;
                                 height: 30px;
-                                border: 1px solid #555;
-                                outline: none;
+                                background-color: #dddddd;
+                                border-radius: 6px;
+                                border: none;
                                 cursor: pointer;
+                                img {
+                                    margin-top: 2px;
+                                }
                             }
                         }
                     }
@@ -72,6 +111,11 @@
                         border: 1px solid #555;
                         outline: none;
                         cursor: pointer;
+                        border-radius: 4px;
+                        a {
+                            color: black;
+                            text-decoration: none;
+                        }
                     }
                 }
             }

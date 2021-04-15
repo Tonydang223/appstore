@@ -1,5 +1,5 @@
 .home__container {
-    max-width: 1300px;
+    width: 100%;
     margin: 0 auto;
     .home__container--above {
         width: 100%;
@@ -8,13 +8,15 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        background-color: #eee;
         h1 {
         }
         p {
         }
     }
     .home__container--below {
-        width: 100%;
+        max-width: 1300px;
+        margin: 0 auto;
         display: flex;
         flex-direction: column;
         .home__below--title {

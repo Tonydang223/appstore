@@ -1,17 +1,20 @@
 import { ErrorMessage, useField } from 'formik'
 import React from 'react'
+import "../../css/Form.scss";
 
-const TextFields = ({label,...props}) => {
+
+const TextFields = ({placeholder,label,...props}) => {
     const[field,meta]=useField(props);
 
     return (
         <div>
-            <label htmlFor={field.label}>{label}</label>
-            <input className="form-control" {...field} 
-            {...props} 
-            autoComplete='off'/>
+            <div>
+            <input className=" forms shadow-none" {...field} 
+            {...props} placeholder={placeholder}
+            autoComplete='off'/>  
+            </div>
             <br/>
-            <ErrorMessage name={field.name}/>
+            <ErrorMessage name={field.name} render={msg=>(<span style={{color:"red"}}>{msg}</span>)}/>
 
         </div>
     )

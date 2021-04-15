@@ -35,6 +35,20 @@ const ContactContextProvider = ({children}) => {
             console.log(error.message);
         }
     }
+    const updateContact = async(values)=>{
+        try {
+            const res = await api.put(`/contacts${values.id}`,values)
+            const {id} = res.data
+            setContact(
+                contacts.map((contact)=>{
+                   return contact.id === id ? { ...res.data}:contact
+                })
+            )
+            
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
     useEffect(() => {
         getAllContacts();
     },[])
@@ -42,7 +56,8 @@ const ContactContextProvider = ({children}) => {
         contacts,
         getAllContacts,
         addContact,
-        removeContact
+        removeContact,
+        updateContact
     }
     return (
        <ContactContext.Provider value={ContactData}>

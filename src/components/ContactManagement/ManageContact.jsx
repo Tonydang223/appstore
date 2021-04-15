@@ -30,7 +30,7 @@ const ManageContact = () => {
                   <td>{contact.email}</td>
                   <td>{contact.message}</td>
                   <td>
-                      <button><Link to="/admin/contactManagement/editContact">Edit</Link></button> 
+                      <button><Link to={`/admin/contactManagement/editContact/${contact.id}`}>Edit</Link></button> 
                   </td>
                   <td>
                       <button onClick={() => removeContact(contact.id)}>Delete</button>

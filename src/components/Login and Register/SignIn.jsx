@@ -1,18 +1,70 @@
-import { Button } from '@material-ui/core';
+import { Avatar, Box, Button, Container, CssBaseline, Grid, makeStyles,Paper,Typography } from '@material-ui/core';
+import { LockOpenOutlined } from '@material-ui/icons';
 import { Form, Formik } from 'formik';
 import React, { useContext, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom';
+import api from '../../api/api';
 import { UsersContext } from '../../contexts/UsersContext';
+import Copyright from './Copyright';
 import TextFields from './TextFields';
 
 const SignIn = () => {
   const history = useHistory();
+  const {error,setError,setShow,setCurrentUser,checkAccount,setLoading} = useContext(UsersContext);
+
+  const submitLogin = async (form) => {
+    const getUsers = await api.get("/users").then(res => checkAccount(res.data,form))
+    if(getUsers){
+     setCurrentUser(form.email)
+     setError("");
+     history.push("/")
+    }else{
+       setError("Email is not corrected")
+    }     
+ }
   
-const {submitLogin,error,setError,setShow,setCurrentUser} = useContext(UsersContext);
+ const useStyles = makeStyles((theme) => ({
+  root: {
+    height: '100vh',
+  },
+  image: {
+    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundRepeat: 'no-repeat',
+    backgroundColor:
+      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  },
+  paper: {
+    margin: theme.spacing(8, 4),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
+      const classes = useStyles();
     return (
-        <div>
-             <h1>SIGN IN</h1>
-     <Formik
+    <Container component="main" maxWidth="xs" className="container">
+      <CssBaseline />
+        <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOpenOutlined/>
+        </Avatar>
+        <Typography component="h1" variant="h5">
+            Sign in
+        </Typography>
+          <Formik
        initialValues={{ 
         email: '',
         password: '',}}
@@ -35,16 +87,13 @@ const {submitLogin,error,setError,setShow,setCurrentUser} = useContext(UsersCont
        }}
        onSubmit={(values) => {
          console.log(values);
-         if(submitLogin(values)){
-           setCurrentUser(values.email)
-          setError("");
-          setShow(false);
-           history.push("/")
+         if(values.email == "admin@example.com" && values.password == "admin123"){
+           history.push("/admin")
+           setCurrentUser(values.email);
          }else{
-            setError("Email is not corrected")
+          submitLogin(values)
          }
-       }}
-     >
+       }}>
        {({
          values,
          errors,
@@ -55,24 +104,42 @@ const {submitLogin,error,setError,setShow,setCurrentUser} = useContext(UsersCont
          isSubmitting,
          /* and other goodies */
        }) => (
-           <Form onSubmit={handleSubmit}>
-               <TextFields name="email" label="Email" type="email"></TextFields>
-               <TextFields name="password" label="Password" type="password"/>
-               <Button type ='submit'>Log In</Button>
-               <span className="form-input-login">
-                 Already to have an account! SignUp
-                 <br/>
-                 {error&&error}
+        
+           <Form onSubmit={handleSubmit} className={classes.form}>
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
+            <TextFields name="email" label="Email" type="email" placeholder="Email" className="inputBox inputBoxBottom"></TextFields>
+            </Grid>
+            <Grid item xs={12}>
+            <TextFields name="password" label="Password" type="password" placeholder="Password" className="inputBox inputBoxBottom"></TextFields>
+            </Grid>
+        </Grid>
+              
+        <Button
+        type="submit"
+        fullWidth
+        variant="contained"
+        color="primary"
+        className={classes.submit}
+        >
+        Sign In
+        </Button>
+            {error&&error}
       
-                    <Link to="/signUp">here</Link>
-                 
-                </span>
-
+            <Grid container justify="flex-end">
+                <Grid item>
+                <Link to="/signUp" variant="body2" href>Already to have an account! SignUp</Link>
+                </Grid>
+            </Grid>
            </Form>
          
        )}
      </Formik>
         </div>
+      <Box mt={5}>
+        <Copyright />
+    </Box>
+        </Container>
     )
 }
 

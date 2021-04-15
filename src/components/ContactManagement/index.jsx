@@ -1,10 +1,9 @@
 import React from 'react'
-import { BrowserRouter as Route, Router,Switch, useRouteMatch } from 'react-router-dom'
+import {Route,Switch} from 'react-router-dom'
 import ContactForm from '../ContactForm/ContactForm'
 import ManageContact from './ManageContact'
 
 const ContactManagement = () => {
-    const{path} = useRouteMatch()
     return (
         <div>
             <div>
@@ -16,7 +15,7 @@ const ContactManagement = () => {
                             <Route exact  path="/admin/contactManagement">
                                <ManageContact/>
                             </Route>
-                            <Route exact path="/admin/contactManagement/editContact">
+                            <Route exact path="/admin/contactManagement/editContact/:id">
                                 <ContactForm/>
                             </Route>
                         </Switch>

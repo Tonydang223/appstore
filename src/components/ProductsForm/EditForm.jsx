@@ -10,7 +10,8 @@ const EditForm = () => {
 
     const {id} = useParams();
     console.log(id);
-    const newProducts = products.filter(product =>product.id === id);
+  
+    const newProducts = products.filter(product =>product.id == id);
     console.log(newProducts);
 
     return (
@@ -115,13 +116,21 @@ const EditForm = () => {
             as={Checkbox}
             value="M"
           />
-          <label>X</label>
+          <label>XS</label>
            <Field
             type="checkbox"
             name="availableSizes"
             label="AvailableSizes"
             as={Checkbox}
-            value="X"
+            value="XS"
+          />
+          <label>S</label>
+           <Field
+            type="checkbox"
+            name="availableSizes"
+            label="AvailableSizes"
+            as={Checkbox}
+            value="S"
           />
           <label>L</label>
           <Field

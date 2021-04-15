@@ -5,13 +5,16 @@ import { Link } from "react-router-dom";
 import { ProductContext } from "../../contexts/ProductContext";
 import "../../css/Cart.scss";
 import formatCurrency from "../../util";
-
+import plusBtn from "../../svg/plus.svg";
+import minusBtn from "../../svg/minus.svg";
 const Cart = () => {
   const {
     cartItems,
     handleAddClick,
     handleRemoveClick,
     handleRemoveProduct,
+    handleClearAll,
+    setTotalPrice,
   } = useContext(ProductContext);
   const itemPrice = cartItems.reduce((a, c) => a + c.price * c.count, 0);
   const taxPrice = itemPrice * 0.1;
@@ -38,16 +41,18 @@ const Cart = () => {
           <div>
             <Fade left cascade={true}>
               <div className="cart__container--table">
-                You have {cartItems.length} in the cart{" "}
+                <div className="cart__container--title">
+                  <h1>Shopping Cart</h1>
+                  <p>You have {cartItems.length} items in the cart </p>
+                </div>
                 <table className="styled-table">
                   <thead>
                     <tr>
                       <th>Product</th>
-                      <th>Title</th>
+                      <th>Description</th>
                       <th>Price</th>
-                      <th>Quantity</th>
                       <th>Size</th>
-                      <th></th>
+                      <th>Quantity</th>
                       <th></th>
                       <th>Total</th>
                     </tr>
@@ -60,26 +65,39 @@ const Cart = () => {
                             <img src={item.image} alt={item.title} />
                           </div>
                         </td>
-                        <td>{item.title}</td>
-                        <td>{formatCurrency(item.price)}</td>
-                        <td>{item.count}</td>
+                        <td>
+                          <div className="description">
+                            <h1>{item.title}</h1>
+                            <p>{item.description}</p>
+                          </div>
+                        </td>
+                        <td>
+                          <div className="price">
+                            <i>{formatCurrency(item.discount)}</i>
+                            <p>{formatCurrency(item.price)}</p>
+                          </div>
+                        </td>
                         <td>{item.size}</td>
                         <td>
-                          <div className="table-btn">
+                          <div className="quantity">
                             <button
                               style={{ cursor: "pointer" }}
                               onClick={() => handleAddClick(item)}
+                              className="plus-btn"
                             >
-                              +
+                              <img src={plusBtn} alt="plusBtn" />
                             </button>
+                            <p>{item.count}</p>
                             <button
                               style={{ cursor: "pointer" }}
                               onClick={() => handleRemoveClick(item)}
+                              className="minus-btn"
                             >
-                              -
+                              <img src={minusBtn} alt="minusBtn" />
                             </button>
                           </div>
                         </td>
+
                         <td style={{ cursor: "pointer" }}>
                           <img
                             src="https://img.icons8.com/material-rounded/24/000000/filled-trash.png"
@@ -112,11 +130,24 @@ const Cart = () => {
                         </td>
                         <td>
                           <button className="button primary">
+                            <Link to="/product">Continue to shopping</Link>
+                          </button>
+                        </td>
+                        <td>
+                          <button
+                            className="button primary"
+                            onClick={() => setTotalPrice(totalPrice)}
+                          >
                             <Link to="/proceed">Proceed</Link>
                           </button>
                         </td>
                         <td>
-                          <button className="button primary">ClearAll</button>
+                          <button
+                            className="button primary"
+                            onClick={handleClearAll}
+                          >
+                            ClearAll
+                          </button>
                         </td>
                       </tr>
                     )}

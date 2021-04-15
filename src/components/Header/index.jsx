@@ -1,16 +1,30 @@
 import React, { useContext, useState, useEffect } from "react";
 import { ProductContext } from "../../contexts/ProductContext";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Menu from "../../svg/bars-solid.svg";
 import Close from "../../svg/times-solid.svg";
 import CartIcon from "../../svg/shopping-cart-solid.svg";
 import "../../css/Header.scss";
 import logo from "../../assets/image/logo.png";
 import { UsersContext } from "../../contexts/UsersContext";
+import Account from "../Login and Register/Account";
+import MenuListComposition from "./MenuListComposition";
 const Header = () => {
   const { cartItems } = useContext(ProductContext);
-  const {show, setShow, setCurrentUser,currentUser,onClickLogOut} = useContext(UsersContext);
-
+  const history = useHistory();
+  const { setCurrentUser, currentUser } = useContext(UsersContext);
+  const onClickLogOut = () => {
+    setCurrentUser("");
+    localStorage.removeItem("current", JSON.stringify(currentUser));
+    history.push("/signIn");
+  };
+  const handleMovingCart = () => {
+    if (currentUser) {
+      history.push("/cart");
+    } else {
+      alert("You must to login to do that");
+    }
+  };
   return (
     <header>
       <div className="header__menu">
@@ -37,21 +51,29 @@ const Header = () => {
           <li>
             <Link to="/about">About</Link>
           </li>
-          {show?          <li>
-            <Link to="/loginandRegister">Login / Register</Link>
-          </li>:<li>{currentUser}
-          <button type="logout" onClick={onClickLogOut}>Log out</button>
-          </li>}
+          {!currentUser ? (
+            <li>
+              <Link to="/loginandRegister">Login / Register</Link>
+            </li>
+          ) : (
+            <>
+              <li>
+                <MenuListComposition onClickLogOut={onClickLogOut} currentUser={currentUser} />
+              </li>
+            </>
+          )}
 
           <li className="header__nav--close">
             <img src={Close} alt="pic2" width="20" />
           </li>
         </ul>
-        <div className="header__nav--cart">
+        <div className="header__nav--cart" onClick={handleMovingCart}>
           <span>{cartItems.length}</span>
-          <Link to="/cart">
-            <img src={CartIcon} alt="pic3" width="20" />
-          </Link>
+          <img
+            src="https://img.icons8.com/ios-filled/50/ffffff/shopping-cart.png"
+            alt="pic3"
+            width="20"
+          />
         </div>
       </nav>
     </header>
