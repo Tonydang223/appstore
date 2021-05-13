@@ -1,15 +1,14 @@
+import { Button } from "@material-ui/core";
 import React, { useContext, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { ProductContext } from "../../contexts/ProductContext";
 import formatCurrency from "../../util";
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const ManageProduct = ({ show, setShow }) => {
   const { products, removeProduct, updateProduct,setProducts } = useContext(ProductContext);
-  const onClick = (product)=>{
-    setShow(true);
-    setProducts(product);
-    console.log(product);
-  }
+
   return (
     <div className="productManagement__wrapper--content">
       <table>
@@ -20,7 +19,7 @@ const ManageProduct = ({ show, setShow }) => {
             <th>Title</th>
             <th>Description</th>
             <th>Price</th>
-            <th colSpan="2">Actions</th>
+            <th colSpan="2" style={{paddingLeft:"50px"}}>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -38,13 +37,15 @@ const ManageProduct = ({ show, setShow }) => {
               <td>
                 <ul>
                   <li onClick={()=>setShow(true)}>
-                    <Link to={`/admin/productManagement/edit/${product.id}`}>Edit</Link>
+                    <Link to={`/admin/productManagement/edit/${product.id}`} style={{color:"#004040"}}><EditIcon /></Link>
                   </li>
                 </ul>
               </td>
               <td>
                 <ul>
-                  <li onClick={() => removeProduct(product.id)}>Delete</li>
+                  <Button>
+                  <li onClick={() => removeProduct(product.id)} style={{color:"#004040"}}><DeleteIcon/></li>
+                  </Button>
                 </ul>
               </td>
             </tr>

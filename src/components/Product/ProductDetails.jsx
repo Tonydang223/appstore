@@ -11,19 +11,23 @@ const ProductDetails = () => {
   const { products, handleAddToCartFromDetails } = useContext(ProductContext);
   const { currentUser } = useContext(UsersContext);
   const { id } = useParams();
-  const newProducts = products.filter((newProduct) => newProduct._id === id);
-  const productId = newProducts.map((product) => product._id);
+  // const newProducts = products.filter((newProduct) => newProduct.id === id);
+  const newProducts = products.filter((newProduct) => newProduct.id == id);
+  console.log(products);
+  console.log(newProducts);
+  const productId = newProducts.map((product) => product.id);
+  console.log(productId);
   const [formValue, setFormValue] = useState({
     count: 0,
     size: "",
-    _id: "",
+    id: "",
   });
 
   const handleChange = (e) => {
     setFormValue({
       ...formValue,
       [e.target.name]: e.target.value,
-      _id: productId[0],
+      id: productId[0],
     });
   };
 
@@ -49,7 +53,7 @@ const ProductDetails = () => {
           <div className="product__details--content">
             <div className="product__content--above">
               <h2>{item.title}</h2>
-              <span>{formatCurrency(item.price)}</span>
+              <span>{item.price}</span>
             </div>
             <div className="product__content--below">
               AvailableSizes:{" "}

@@ -2,12 +2,13 @@ import React, { createContext, useState, useEffect } from "react";
 import data from "../data/data.json";
 import axios from "axios";
 import formatNumber from "../util2";
-import api from "../api/api"
+import api from "../api/api";
 import { isUuid } from "uuidv4";
+import { useHistory } from "react-router";
 export const ProductContext = createContext();
 
-
 const ProductContextProvider = ({ children }) => {
+  const history = useHistory();
   //state
   const [products, setProducts] = useState([]);
   const [size, setSize] = useState("");
@@ -15,67 +16,18 @@ const ProductContextProvider = ({ children }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [totalPrice, setTotalPrice] = useState("");
   const [category, setCategory] = useState("");
+  const [orderDetails, setOrderDetails] = useState({});
+  const [orderedItems, setorderedItems] = useState([]);
   const [cartItems, setCartItems] = useState(
     localStorage.getItem("cartItems")
       ? JSON.parse(localStorage.getItem("cartItems"))
       : []
   );
-  const received = async () => {
-    const res = await api.get("/products");
-    return res.data;
-  }
-  const random = Math.floor(Math.random() *1000)
-
-  const addProduct = async (values) => {
-    try {
-      console.log(values)
-      const requets = {
-        id: random,
-        ...values
-      }
-      const res = await api.post("/products",requets)
-      setProducts([...products,res.data]);
-    } catch (error) {
-      console.log(error.message)
-    }
-
-  }
-  const removeProduct = async (id) => {
-    try {
-      await api.delete(`/products/${id}`)
-      const newProductList = products.filter((product)=>{
-        return product.id !== id;
-      })
-      setProducts(newProductList)
-    } catch (error) {
-      console.log(error.message)
-
-    }
-  }
-  const updateProduct = async (values) => {
-    const response = await api.put(`/products/${values.id}`, values);
-    const { id, name, email } = response.data;
-    setProducts(
-      products.map((product) => {
-        return product.id === id ? { ...response.data } : product;
-      })
-    );
-  }
-  // const getProducts = async () => {
-  //   try {
-  //     const response = await axios.get("http://localhost:3000/products");
-  //     setProducts(response.data);
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
-  useEffect(() => {
-    const getdatas = async ()=>{
-      const allProducts = await received();
-      if(allProducts) setProducts(allProducts)
-    }
-    getdatas();
-  }, []);
+  const [orders, setOrders] = useState(
+    localStorage.getItem("orders")
+      ? JSON.parse(localStorage.getItem("orders"))
+      : []
+  );
   const productFilter = (value) => {
     return value.filter((val) => {
       if (searchTerm === "") {
@@ -85,15 +37,75 @@ const ProductContextProvider = ({ children }) => {
       }
     });
   };
+  const handleFilterProducts = (product) => {
+    setProductFiltered(product);
+  };
+  const [productFiltered, setProductFiltered] = useState([]);
+  const [isFilter, setIsFilter] = useState(false);
+  const received = async () => {
+    const res = await api.get("/products");
+    return res.data;
+  };
+  const random = Math.floor(Math.random() * 1000);
 
+  const addProduct = async (values) => {
+    try {
+      console.log(values);
+      const requets = {
+        id: random,
+        ...values,
+      };
+      const res = await api.post("/products", requets);
+      setProducts([...products, res.data]);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  const saveOrder = async (order) => {
+    console.log(order);
+    try {
+      const res = await api.post("/orders", order);
+      setorderedItems([...orderedItems, res.data]);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  console.log(orderedItems)
+  const removeProduct = async (id) => {
+    try {
+      await api.delete(`/products/${id}`);
+      const newProductList = products.filter((product) => {
+        return product.id !== id;
+      });
+      setProducts(newProductList);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  const updateProduct = async (values) => {
+    const response = await api.put(`/products/${values.id}`, values);
+    const { id, name, email } = response.data;
+    setProducts(
+      products.map((product) => {
+        return product.id === id ? { ...response.data } : product;
+      })
+    );
+  };
+  useEffect(() => {
+    const getdatas = async () => {
+      const allProducts = await received();
+      if (allProducts) setProducts(allProducts);
+    };
+    getdatas();
+  }, []);
 
   const handleAddClick = (productValue) => {
     console.log(productValue);
-    const currentProduct = cartItems.find((x) => x._id === productValue._id);
+    const currentProduct = cartItems.find((x) => x.id === productValue.id);
     if (currentProduct) {
       setCartItems(
         cartItems.map((item) => {
-          return item._id === productValue._id
+          return item.id === productValue.id
             ? { ...currentProduct, count: currentProduct.count + 1 }
             : item;
         })
@@ -101,11 +113,11 @@ const ProductContextProvider = ({ children }) => {
     }
   };
   const handleRemoveClick = (productValue) => {
-    const currentProduct = cartItems.find((x) => x._id === productValue._id);
+    const currentProduct = cartItems.find((x) => x.id === productValue.id);
     if (currentProduct.count === 1) {
       setCartItems(
         cartItems.map((item) => {
-          return item._id === productValue._id
+          return item.id === productValue.id
             ? { ...currentProduct, count: 1 }
             : item;
         })
@@ -113,41 +125,50 @@ const ProductContextProvider = ({ children }) => {
     } else {
       setCartItems(
         cartItems.map((item) => {
-          return item._id === productValue._id
+          return item.id === productValue.id
             ? { ...currentProduct, count: currentProduct.count - 1 }
             : item;
         })
       );
     }
   };
-  const handleRemoveProductFromAdmin = async (id) => {
-    try {
-      // await axios.delete(`http://localhost:3000/products/${id}`);
-      const productValue = products.filter((product) => product._id !== id);
-      setProducts(productValue);
-    } catch (error) {
-      console.log(error.message);
+  // const handleRemoveProductFromAdmin = async (id) => {
+  //   try {
+  //     await axios.delete(`http://localhost:3000/products/${id}`);
+  //     const productValue = products.filter((product) => product.id !== id);
+  //     setProducts(productValue);
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
+  const handleClearAll = (value) => {
+    if (value) {
+      localStorage.removeItem("cartItems");
+      setCartItems([]);
     }
+    localStorage.removeItem("orders");
   };
-  const handleClearAll = () => {
-    localStorage.removeItem("cartItems");
-    setCartItems([]);
+  const takeOrderValues = (value) => {
+    if (value) {
+      setOrders([{ ...orders, ...value }]);
+    }
+    return;
   };
   const handleRemoveProduct = (id) => {
-    const currentProduct = cartItems.find((x) => x._id === id);
+    const currentProduct = cartItems.find((x) => x.id === id);
     const cartValue = [...cartItems];
     if (currentProduct) {
-      setCartItems(cartValue.filter((item) => item._id !== id));
+      setCartItems(cartValue.filter((item) => item.id !== id));
     }
     localStorage.setItem(
       "cartItems",
-      JSON.stringify(cartValue.filter((item) => item._id !== id))
+      JSON.stringify(cartValue.filter((item) => item.id !== id))
     );
   };
   const handleAddToCart = (productValue) => {
     const cartValues = [...cartItems];
     const alreadyInCart = cartItems.every((item) => {
-      return item._id !== productValue._id;
+      return item.id !== productValue.id;
     });
     if (alreadyInCart) {
       cartValues.push({
@@ -156,9 +177,7 @@ const ProductContextProvider = ({ children }) => {
         size: "L",
       });
     } else {
-      const cartName = cartItems.filter(
-        (item) => item._id === productValue._id
-      );
+      const cartName = cartItems.filter((item) => item.id === productValue.id);
       console.log("cartName", cartName);
       alert(cartName[0].title + " has been in your cart!");
     }
@@ -171,12 +190,10 @@ const ProductContextProvider = ({ children }) => {
     } else if (productValue.size === "") {
       alert("You have to choose your size of product before adding to cart");
     } else {
-      const currentCartItem = products.filter(
-        (x) => x._id === productValue._id
-      );
+      const currentCartItem = products.filter((x) => x.id === productValue.id);
       const cartValues = [...cartItems];
       const alreadyInCart = cartItems.every((item) => {
-        return item._id !== productValue._id;
+        return item.id !== productValue.id;
       });
       const newCartItem = {
         ...currentCartItem[0],
@@ -193,21 +210,6 @@ const ProductContextProvider = ({ children }) => {
     }
   };
 
-  const handleFilterProducts = (event) => {
-    if (event.target.value === "") {
-      return;
-    } else if (event.target.value === "All") {
-      setSize(event.target.value);
-      setProducts(data.products);
-    } else {
-      setSize(event.target.value);
-      setProducts(
-        data.products.filter(
-          (product) => product.availableSizes.indexOf(event.target.value) >= 0
-        )
-      );
-    }
-  };
   const handleSortProducts = (event) => {
     console.log(event.target.value);
     const sortValue = event.target.value;
@@ -222,7 +224,7 @@ const ProductContextProvider = ({ children }) => {
         ? a.price > b.price
           ? 1
           : -1
-        : a._id < b._id
+        : a.id < b.id
         ? 1
         : -1
     );
@@ -260,6 +262,7 @@ const ProductContextProvider = ({ children }) => {
   const handleSearchSubmit = (search) => {
     setSearchTerm(search);
   };
+  console.log(orderDetails);
   const productContextData = {
     updateProduct,
     removeProduct,
@@ -270,6 +273,7 @@ const ProductContextProvider = ({ children }) => {
     sort,
     category,
     cartItems,
+    setCartItems,
     productFilter,
     totalPrice,
     setTotalPrice,
@@ -282,8 +286,17 @@ const ProductContextProvider = ({ children }) => {
     handleRemoveClick,
     handleRemoveProduct,
     handleSearchSubmit,
-    handleRemoveProductFromAdmin,
     handleClearAll,
+    productFiltered,
+    isFilter,
+    setSize,
+    setCategory,
+    cartItems,
+    setIsFilter,
+    takeOrderValues,
+    orderDetails,
+    setOrderDetails,
+    saveOrder,
   };
   return (
     <ProductContext.Provider value={productContextData}>

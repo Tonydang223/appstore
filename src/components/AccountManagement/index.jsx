@@ -4,17 +4,17 @@ import React, { useContext } from 'react'
 import { Route, Switch } from "react-router-dom";
 import EditAccountForm from '../AccountForm/EditAccountForm';
 import ManageAccount from './ManageAccount';
+import '../AccountManagement/Account.scss';
 
 const AccountManagement = () => {
     
     return (
-        <div>
-          <div>
-          </div>
-          <div>
-            <h2>Manage Account</h2>
-            <div>
-              <Switch>
+        <div className="wraper-account">
+              <div className="wraper-above-account">
+                <h2>Manage Account</h2>
+              </div >
+              <div className="wraper-bottom-account">
+              <Switch >
                 <Route exact path="/admin/accountManagement">
                   <ManageAccount/>
                 </Route>
@@ -22,8 +22,8 @@ const AccountManagement = () => {
                   <EditAccountForm/>
                 </Route>
               </Switch>
-            </div>
-          </div>
+              </div>
+
         </div>
     )
 }

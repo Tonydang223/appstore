@@ -13,14 +13,13 @@ const Header = ({ show, setShow }) => {
     <ul style={{listStyleType:"none"}}>
       <li>
         {show ? (
-
-          <Link to="/admin/productManagement" onClick={onClick2} className="btn-removeUnderline">
           <Button
           variant="contained"
           >
+          <Link to="/admin/productManagement" onClick={onClick2} className="btn-removeUnderline">
           <a> Back </a>
-          </Button>
           </Link>
+          </Button>
         ) : (
           <Button
           variant="contained"

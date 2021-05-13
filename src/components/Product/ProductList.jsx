@@ -23,14 +23,14 @@ const ProductList = ({ products }) => {
   const displayProducts = products
     .slice(pageVisited, pageVisited + productPerPage)
     .map((product) => (
-      <li key={product._id}>
+      <li key={product.id}>
         <div className="products__item">
-          <Link to={`/product/${product._id}`}>
+          <Link to={`/product/${product.id}`}>
             <img src={product.image} alt={product.src} />
           </Link>
           <div className="products__item--content">
             <h3>
-              <Link to={`/product/${product._id}`}>{product.title}</Link>
+              <Link to={`/product/${product.id}`}>{product.title}</Link>
             </h3>
             <div className="products__content--price">
               <span>{product.price} $</span>

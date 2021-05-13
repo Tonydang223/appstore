@@ -3,6 +3,9 @@ import { Avatar, Box, Button, Container, CssBaseline, Grid, makeStyles, TextFiel
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { ProductContext } from '../../contexts/ProductContext';
 import { Checkbox } from '@material-ui/core';
+import "../../css/Form.scss";
+import TextFields from '../Login and Register/TextFields';
+
 
 
 
@@ -59,7 +62,6 @@ const ProductForm = () => {
           if(!values.discount.trim()){
             errors.discount = "Discount Required"
           }
-
           if(!values.price.trim()){
             errors.price = "Price Required"
           }
@@ -85,34 +87,43 @@ const ProductForm = () => {
         isSubmitting,
       }) => (
  
-        <Form>
+        <Form className={classes.form}>
+          <Grid container spacing={2}>
+          
+          <Grid item xs={12}>
           <label>Title</label>
-          <Field
+          <TextFields
             type="title"
             name="title"
             label="title"
             value={values.title}
+            className="form"
           />
-          <ErrorMessage name="title" component="div"/>
-          <br />
+          </Grid>
+          
+          <Grid item xs={12}>
           <label>Category</label>
-          <Field
+          <TextFields
             type="category"
             name="category"
             label="category"
             value={values.category}
+            className="form"
           />
-          <ErrorMessage name="category" component="div"/>
-          <br></br>
+          </Grid>
+          
+          <Grid item xs={12}>
           <label>Description</label>
-          <Field
+          <TextFields
             type="description"
             name="description"
             label="description"
             values={values.description}
+            className="form"
           />
-          <ErrorMessage name="description" component="div"/>
-          <br />
+          </Grid>
+          
+          <Grid item xs={12}>
           <label>AvailableSize</label>
           <div>
           <label>XL</label>
@@ -164,34 +175,45 @@ const ProductForm = () => {
             value="S"
           />
           </div>
-          
-          <ErrorMessage name="availableSizes" component="div"/>
-          <br />
+          </Grid>
+         
+          <Grid item xs={12}>
           <label>Discount</label>
-          <Field type="discount" name="discount" label="Discount" value={values.discount}></Field>
-          <ErrorMessage name="discount" component="div"/>
-          <br />
-          <label>Price</label>
-          <Field
+          <TextFields type="discount" name="discount" label="Discount" value={values.discount}
+           className="form"
+          ></TextFields>
+          </Grid>
+          
+          <Grid item xs={12}>
+          <label>Price</label>    
+          <TextFields
             type="price"
             name="price"
             label="price"
             values={values.price}
+            className="form"
           />
-          <ErrorMessage name="price" component="div"/>
-          <br />
+          </Grid>
+          
+          <Grid item xs={12}>
           <label>Image</label>
-          <Field
+          <TextFields
             type="text"
             name="image"
             label="image"
             values={values.image}
+            className="form"
           />
-          <ErrorMessage name="image" component="div"/>
-          <br />
-          <button type="submit" >
-            Submit
-          </button>
+          </Grid>
+          </Grid>
+          <Button 
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}>
+            Add Product
+            </Button>
         </Form>
       )}
     </Formik>

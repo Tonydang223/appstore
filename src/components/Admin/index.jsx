@@ -23,7 +23,7 @@ const Admin = () => {
             <Route path="/admin/contactManagement">
               <ContactManagement />
             </Route>
-            <Route exact path="/admin/orderManagement">
+            <Route path="/admin/orderManagement">
               <OrderManagement />
             </Route>
           </Switch>

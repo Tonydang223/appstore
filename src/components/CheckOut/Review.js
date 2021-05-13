@@ -7,6 +7,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Grid from "@material-ui/core/Grid";
 import { ProductContext } from "../../contexts/ProductContext";
 import formatCurrency from "../../util";
+import { Button } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   listItem: {
     padding: theme.spacing(1, 0),
@@ -19,9 +20,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Review({ infCus, infShipping }) {
+export default function Review({
+  handleNextStep,
+  value,
+  setValue,
+  handlePrevStep,
+}) {
   const classes = useStyles();
-  const { cartItems, totalPrice } = useContext(ProductContext);
+  console.log(value);
+  const {
+    cartItems,
+    totalPrice,
+    setCartItems,
+    orderDetails,
+    saveOrder,
+  } = useContext(ProductContext);
+  const handleSubmit = (order) => {
+    handleNextStep();
+    saveOrder(order);
+  };
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -37,7 +54,7 @@ export default function Review({ infCus, infShipping }) {
         <ListItem className={classes.listItem}>
           <ListItemText primary="Total (included shipping)" />
           <Typography variant="subtitle1" className={classes.total}>
-            {formatCurrency(totalPrice)}
+            {"$" + totalPrice}
           </Typography>
         </ListItem>
       </List>
@@ -47,36 +64,57 @@ export default function Review({ infCus, infShipping }) {
             Shipping
           </Typography>
           <Typography gutterBottom>
-            Name : {infCus.firstName + " " + infCus.lastName}
+            Name : {value.firstName + " " + value.lastName}
           </Typography>{" "}
-          <Typography gutterBottom>Address : {infCus.address}</Typography>
-          <Typography gutterBottom>City : {infCus.city}</Typography>
-          <Typography gutterBottom>Country : {infCus.country}</Typography>
-          <Typography gutterBottom>Zip : {infCus.zip}</Typography>{" "}
+          <Typography gutterBottom>Address : {value.address}</Typography>
+          <Typography gutterBottom>
+            Number Phone : {value.phoneNumber}
+          </Typography>
+          <Typography gutterBottom>City : {value.city}</Typography>
+          <Typography gutterBottom>Country : {value.country}</Typography>
+          <Typography gutterBottom>Zip : {value.zip}</Typography>{" "}
         </Grid>
         <Grid item container direction="column" xs={12} sm={6}>
           <Typography variant="h6" gutterBottom className={classes.title}>
             Payment details
           </Typography>
-          {infShipping ? (
-            <>
-              <Grid item xs={12} sm={6}>
-                <Typography gutterBottom>
-                  Name : {infShipping.nameOfCard}
-                </Typography>{" "}
-                <Typography gutterBottom>
-                  Number : {infShipping.cardNumber}
-                </Typography>
-                <Typography gutterBottom>
-                  Date : {infShipping.expiryDate}
-                </Typography>
-                <Typography gutterBottom>Cvv : {infShipping.cvv}</Typography>
-              </Grid>
-            </>
-          ) : (
-            "There is no any details here! "
-          )}
+
+          <Grid item xs={12} sm={6}>
+            {value.nameOfCard ? (
+              <Typography gutterBottom>Name : {value.nameOfCard}</Typography>
+            ) : (
+              ""
+            )}
+            {value.cardNumber ? (
+              <Typography gutterBottom>
+                cardNumber : {value.cardNumber}
+              </Typography>
+            ) : (
+              ""
+            )}
+            {value.Date ? (
+              <Typography gutterBottom>Date : {value.expiryDate}</Typography>
+            ) : (
+              ""
+            )}
+            {value.Cvv ? (
+              <Typography gutterBottom>Cvv : {value.cvv}</Typography>
+            ) : (
+              ""
+            )}
+          </Grid>
         </Grid>
+        <Button
+          ariant="contained"
+          color="primary"
+          onClick={() => handleSubmit(orderDetails)}
+        >
+          OK
+        </Button>
+
+        <Button ariant="contained" color="primary" onClick={handlePrevStep}>
+          Back
+        </Button>
       </Grid>
     </React.Fragment>
   );

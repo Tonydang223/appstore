@@ -1,21 +1,12 @@
 import { Button } from "@material-ui/core";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { FastField, Form, Formik } from "formik";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
 import * as Yup from "yup";
 import InputField from "./InputField";
-
-export default function AddressForm({
-  handleSubmitFromAddress,
-  handleNext,
-  className,
-  activeStep,
-  steps,
-}) {
+import { ProductContext } from "../../contexts/ProductContext";
+export default function AddressForm({ handleNextStep, setValue, value }) {
   const validate = Yup.object({
     firstName: Yup.string()
       .max(15, "Must be 15 characters or less")
@@ -26,6 +17,10 @@ export default function AddressForm({
     address: Yup.string()
       .max(20, "Must be 20 characters or less")
       .required("Required"),
+    phoneNumber: Yup.string().matches(
+      /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
+      "Phone number is not valid"
+    ),
     city: Yup.string()
       .max(10, "Must be 10 characters or less")
       .required("Required"),
@@ -39,6 +34,7 @@ export default function AddressForm({
       .max(10, "Must be characters or less")
       .required("Required"),
   });
+  const { cartItems } = useContext(ProductContext);
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -49,6 +45,7 @@ export default function AddressForm({
           firstName: "",
           lastName: "",
           address: "",
+          phoneNumber: "",
           city: "",
           state: "",
           zip: "",
@@ -56,10 +53,16 @@ export default function AddressForm({
         }}
         validationSchema={validate}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-            handleSubmitFromAddress(values);
-            handleNext();
-            resetForm();
-            setSubmitting(false);
+          console.log(JSON.stringify(values, null, 2));
+          const newValue = {
+            ...values,
+            products: cartItems,
+            isShipping: false,
+          };
+          setValue(newValue);
+          handleNextStep();
+          resetForm();
+          setSubmitting(false);
         }}
       >
         {(formikProps) => {
@@ -93,6 +96,16 @@ export default function AddressForm({
                       component={InputField}
                       label="Addresse"
                       placeholder="Address"
+                      type="text"
+                      autoComplete="shipping address-line2"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FastField
+                      name="phoneNumber"
+                      component={InputField}
+                      label="Phone Number"
+                      placeholder="phone Number"
                       type="text"
                       autoComplete="shipping address-line2"
                     />
@@ -138,17 +151,10 @@ export default function AddressForm({
                     />
                   </Grid>
 
-                  <Grid item xs={10}>
-                    <Link to="/cart">Back to cart !</Link>
-                  </Grid>
+                  <Grid item xs={10}></Grid>
                   <Grid item xs={2}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      type="submit"
-                      className={className}
-                    >
-                      {activeStep === steps.length - 1 ? "Place order" : "Next"}
+                    <Button variant="contained" color="primary" type="submit">
+                      Next
                     </Button>
                   </Grid>
                 </Grid>

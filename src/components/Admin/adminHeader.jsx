@@ -15,7 +15,7 @@ const AdminHeader = () => {
           <Link to="/admin/contactManagement">Manage Contact </Link>
         </li>
         <li>
-          <Link to="/admin/orderManagement">Manage Order </Link>
+          <Link  to="/admin/orderManagement">Manage Order </Link>
         </li>
       </ul>
     </div>

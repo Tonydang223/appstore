@@ -37,7 +37,7 @@ const ContactContextProvider = ({children}) => {
     }
     const updateContact = async(values)=>{
         try {
-            const res = await api.put(`/contacts${values.id}`,values)
+            const res = await api.put(`/contacts/${values.id}`,values)
             const {id} = res.data
             setContact(
                 contacts.map((contact)=>{

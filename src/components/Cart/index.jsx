@@ -59,7 +59,7 @@ const Cart = () => {
                   </thead>
                   <tbody>
                     {cartItems.map((item) => (
-                      <tr key={item._id}>
+                      <tr key={item.id}>
                         <td>
                           <div className="img">
                             <img src={item.image} alt={item.title} />
@@ -73,8 +73,8 @@ const Cart = () => {
                         </td>
                         <td>
                           <div className="price">
-                            <i>{formatCurrency(item.discount)}</i>
-                            <p>{formatCurrency(item.price)}</p>
+                            <i>$ {item.discount}</i>
+                            <p>$ {item.price}</p>
                           </div>
                         </td>
                         <td>{item.size}</td>
@@ -102,7 +102,7 @@ const Cart = () => {
                           <img
                             src="https://img.icons8.com/material-rounded/24/000000/filled-trash.png"
                             alt="bin"
-                            onClick={() => handleRemoveProduct(item._id)}
+                            onClick={() => handleRemoveProduct(item.id)}
                           />
                         </td>
                         <td>{formatCurrency(item.price * item.count)}</td>
@@ -122,7 +122,7 @@ const Cart = () => {
                         </td>
                         <td>
                           <div>
-                            Shipping Price: {formatCurrency(shippingPrice)}
+                            Shipping Price {formatCurrency(shippingPrice)}
                           </div>
                         </td>
                         <td>

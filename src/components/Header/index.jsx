@@ -10,14 +10,16 @@ import { UsersContext } from "../../contexts/UsersContext";
 import Account from "../Login and Register/Account";
 import MenuListComposition from "./MenuListComposition";
 const Header = () => {
-  const { cartItems } = useContext(ProductContext);
+  const { cartItems, setCartItems } = useContext(ProductContext);
   const history = useHistory();
   const { setCurrentUser, currentUser } = useContext(UsersContext);
   const onClickLogOut = () => {
     setCurrentUser("");
+    setCartItems([]);
     localStorage.removeItem("current", JSON.stringify(currentUser));
     history.push("/signIn");
   };
+
   const handleMovingCart = () => {
     if (currentUser) {
       history.push("/cart");
@@ -25,6 +27,10 @@ const Header = () => {
       alert("You must to login to do that");
     }
   };
+  // useEffect(() => {
+  //   localStorage.removeItem("current", JSON.stringify(currentUser));
+  //   setCartItems([]);
+  // }, [currentUser])
   return (
     <header>
       <div className="header__menu">
@@ -58,7 +64,10 @@ const Header = () => {
           ) : (
             <>
               <li>
-                <MenuListComposition onClickLogOut={onClickLogOut} currentUser={currentUser} />
+                <MenuListComposition
+                  onClickLogOut={onClickLogOut}
+                  currentUser={currentUser}
+                />
               </li>
             </>
           )}

@@ -6,11 +6,10 @@ import React from "react";
 import * as Yup from "yup";
 import InputField from "./InputField";
 export default function PaymentForm({
-  handleSubmitFromPayment,
-  handleNext,
-  className,
-  activeStep,
-  steps,
+  handleNextStep,
+  value,
+  setValue,
+  handlePrevStep,
 }) {
   const styles = {
     fontWeight: "normal",
@@ -23,22 +22,11 @@ export default function PaymentForm({
     nameOfCard: Yup.string()
       .max(15, "Must be 15 characters or less")
       .required("Required"),
-    cardNumber: Yup.string()
-      .matches(
-        /^(?:(4[0-9]{12}(?:[0-9]{3})?)|(5[1-5][0-9]{14})|(6(?:011|5[0-9]{2})[0-9]{12})|(3[47][0-9]{13})|(3(?:0[0-5]|[68][0-9])[0-9]{11})|((?:2131|1800|35[0-9]{3})[0-9]{11}))$/,
-        "VisaCard is invalid"
-      )
-      .required("Required"),
-    expiryDate: Yup.string()
-      .matches(
-        /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/,
-        "Exp is invalid"
-      )
-      .required("Required"),
-    cvv: Yup.string()
-      .matches(/^[0-9]{3,4}$/, "Ccv is invalid")
-      .required("Required"),
+    cardNumber: Yup.string().required("Required"),
+    expiryDate: Yup.string().required("Required"),
+    cvv: Yup.string().required("Required"),
   });
+  console.log(value);
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -53,9 +41,11 @@ export default function PaymentForm({
         }}
         validationSchema={validate}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          handleSubmitFromPayment(values);
+          console.log(JSON.stringify(values, null, 2));
+          const newValue = { ...value, ...values };
+          setValue(newValue);
+          handleNextStep();
           resetForm();
-          handleNext();
           setSubmitting(false);
         }}
       >
@@ -121,22 +111,38 @@ export default function PaymentForm({
                           autoComplete="cc-csc"
                         />
                       </Grid>
-                      <Grid item xs={7}></Grid>
-                      <Grid item xs={5}>
+                      <Grid item xs={10}></Grid>
+                      <Grid item xs={2}>
                         <Button
                           variant="contained"
                           color="primary"
                           type="submit"
-                          className={className}
                         >
-                          {activeStep === steps.length - 1
-                            ? "Place order"
-                            : "Payment by online"}
+                          Next
                         </Button>
                       </Grid>
                     </>
                   ) : (
-                    ""
+                    <>
+                      <Grid item xs={2}>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          type="submit"
+                          onClick={handleNextStep}
+                        >
+                          Next
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          type="button"
+                          onClick={handlePrevStep}
+                        >
+                          Back
+                        </Button>
+                      </Grid>
+                    </>
                   )}
                 </Grid>
               </Form>

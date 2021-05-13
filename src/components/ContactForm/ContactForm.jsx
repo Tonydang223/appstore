@@ -1,23 +1,49 @@
 import React, { useContext } from 'react'
-import { Button } from '@material-ui/core';
 import { Form, Formik } from 'formik';
 import { Link, useParams } from 'react-router-dom';
 import TextFields from '../Login and Register/TextFields';
 import { ContactContext } from '../../contexts/ContactContext';
+import { Avatar, Box, Button, Container, CssBaseline, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
 const ContactForm = () => {
     const {contacts,updateContact} = useContext(ContactContext);
+    const useStyles = makeStyles((theme) => ({
+      paper: {
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      },
+      form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(3),
+      },
+      submit: {
+        margin: theme.spacing(3, 0, 2),
+      },
+      fontsize:{
+        fontSize:20,
+        color:'#004040'
+      }
+      
+    }));
+    const classes = useStyles();
     const {id} = useParams();
     console.log(id);
     const newContact = contacts.filter(contact => contact.id == id);
     console.log(newContact)
     return (
-        <div>
-        <h4>Edit Contact</h4>
-        <div>
+      <Container component="main" maxWidth="xs" className="container">
+      <CssBaseline/>
+        <div className={classes.paper}>
+        <Typography component="h2" variant="h9" className={classes.fontsize}>
+            Edit Contact
+        </Typography>
+
         {newContact.map(contact =>(
         <Formik
  
         initialValues={{ 
+            id:id,
             fullName: contact.fullName,
             email: contact.email,
             phone: contact.phone,
@@ -49,9 +75,9 @@ const ContactForm = () => {
              }
              return errors;
          }}
-        onSubmit={(values) => {
+        onSubmit={(values,id) => {
           console.log(values);
-          updateContact(values) ;
+          updateContact(values,id) ;
         }}
       >
         {({
@@ -64,21 +90,35 @@ const ContactForm = () => {
           isSubmitting,
           /* and other goodies */
         }) => (
-            <Form onSubmit={handleSubmit}>
-                <TextFields name="fullName" label="fullName" type="fullName"></TextFields>
-                <TextFields name="email" label="email" type="email"></TextFields>
-                <TextFields name="phone" label="phone" type="phone"></TextFields>
-                <TextFields name="message" label="message" type="message"></TextFields>
-                <Button type='submit'>Update</Button>
+            <Form onSubmit={handleSubmit} className={classes.form}>
+              <Grid container spacing={0}>
+              <Grid xs={12}>
+              <TextFields name="fullName" label="fullName" type="fullName" className="form"></TextFields>
+              </Grid>
+              <Grid xs={12}>
+              <TextFields name="email" label="email" type="email" className="form"></TextFields>
+              </Grid>
+              <Grid xs={12}>
+              <TextFields name="phone" label="phone" type="phone" className="form"></TextFields>
+              </Grid>
+              <Grid xs={12}>
+              <TextFields name="message" label="message" type="message" className="form"></TextFields>
+              </Grid>   
+              </Grid>
+              <Button 
+              type="submit"
+              fullWidth
+              variant="contained"
+              style={{backgroundColor:" #004040", color:" #fff"}}
+              className={classes.submit}>
+              UPDATE
+            </Button>     
             </Form>
-          
         )}
       </Formik>
-        ))}
-        </div>
-        
-    
- </div>
+        ))}  
+    </div>
+    </Container>
     )
 }
 
