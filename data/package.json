@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "json-server -p 3002 -w data.json"
+    "start": "json-server -p 3003 -w data.json"
   },
   "keywords": [],
   "author": "",

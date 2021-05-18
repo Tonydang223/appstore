@@ -82,8 +82,8 @@ const Checkout = () => {
           <Review
             handlePrevStep={handlePrevStep}
             handleNextStep={handleNextStep}
-            setValue={orderDetails}
-            value={setOrderDetails}
+            value={orderDetails}
+            setValue={setOrderDetails}
           />
         );
       case 3:

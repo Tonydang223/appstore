@@ -26,19 +26,17 @@ export default function Review({
   setValue,
   handlePrevStep,
 }) {
-  const classes = useStyles();
   console.log(value);
-  const {
-    cartItems,
-    totalPrice,
-    setCartItems,
-    orderDetails,
-    saveOrder,
-  } = useContext(ProductContext);
+  const classes = useStyles();
+  const { cartItems, totalPrice, setCartItems, orderDetails, saveOrder } =
+    useContext(ProductContext);
   const handleSubmit = (order) => {
     handleNextStep();
     saveOrder(order);
+    setCartItems([]);
+    localStorage.removeItem("cartItems");
   };
+  console.log(cartItems.map((item) => item.count));
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -46,7 +44,7 @@ export default function Review({
       </Typography>
       <List disablePadding>
         {cartItems.map((product) => (
-          <ListItem className={classes.listItem} key={product._id}>
+          <ListItem className={classes.listItem} key={product.id}>
             <ListItemText primary={product.title} secondary={product.size} />
             <Typography variant="body2">{product.price}</Typography>
           </ListItem>

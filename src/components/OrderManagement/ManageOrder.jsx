@@ -1,85 +1,197 @@
-import React, { useContext } from 'react'
-import { ProductContext } from '../../contexts/ProductContext'
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, makeStyles, ButtonGroup, Button} from '@material-ui/core';
-import { Link } from 'react-router-dom';
-import { UsersContext } from '../../contexts/UsersContext';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
+import React, { useContext, useState } from "react";
+import { ProductContext } from "../../contexts/ProductContext";
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  makeStyles,
+  ButtonGroup,
+  Button,
+} from "@material-ui/core";
+import { Link } from "react-router-dom";
+import { UsersContext } from "../../contexts/UsersContext";
+import DetailsIcon from "@material-ui/icons/Details";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Modal from "../Modal";
 
 const ManageOrder = () => {
-    const {cartItems,handleRemoveProduct} = useContext(ProductContext)
-    console.log(cartItems.map((item)=>{return item}))
-    const useStyles = makeStyles({
-        table: {
-          minWidth: 300,
-          margin: 20,
-        },
-        bold: {
-          fontWeight: 'bold',
-          fontSize:15,
-          fontFamily: 'Arial, Helvetica, sans-serif'
-        },
-        paddingLeft:{
-          paddingLeft:30,
-          fontWeight: 'bold',
-          fontSize:15,
-        },
-        color:{
-          color:'#004040'
-        },
-        hover: {
-          "&:hover": {
-            backgroundColor: '#ffffff'
-          }
-        },
-        img:{
-            width:80,
-        }
-      });
-      const classes = useStyles();
+  const { handleRemoveProduct, orderedItems, deleteOrder } =
+    useContext(ProductContext);
+  const [hideModal, setHideModal] = useState(true);
+  const [orderID, setOrderID] = useState("");
+  const toggleModal = () => setHideModal(!hideModal);
+  console.log(
+    orderedItems.map((item) => {
+      return item;
+    })
+  );
+  const handleTab = (orderId) => {
+    toggleModal();
+    setOrderID(orderId);
+  };
+  const useStyles = makeStyles({
+    table: {
+      minWidth: 600,
+      margin: 30,
+      padding: 20,
+    },
+    body: {
+      fontSize: 13,
+    },
+    minWidth: {
+      minWidth: 100,
+      fontWeight: "bold",
+      fontSize: 14,
+      height: 20,
+      fontFamily: "Arial, Helvetica, sans-serif",
+    },
+    minWidth1: {
+      minWidth: 120,
+      fontWeight: "bold",
+      fontSize: 14,
+      fontFamily: "Arial, Helvetica, sans-serif",
+    },
+    bold: {
+      fontWeight: "bold",
+      fontSize: 13,
+      fontFamily: "Arial, Helvetica, sans-serif",
+    },
+    paddingLeft: {
+      paddingLeft: 30,
+      fontWeight: "bold",
+      fontSize: 13,
+    },
+    color: {
+      color: "#004040",
+    },
+    hover: {
+      "&:hover": {
+        backgroundColor: "#ffffff",
+      },
+    },
+  });
+  const classes = useStyles();
+  const configModal = {
+    hideModal,
+    toggleModal,
+    headline: "Detail ordered products",
+  };
+  const orderDetails = orderedItems.filter((order) => order.id === orderID);
+  console.log(orderDetails);
+  return (
+    <>
+      <Modal {...configModal}>
+        {/* {orderedItems.map(order=>order.products.map(
 
-    return (
+        ))} */}
         <TableContainer component={Paper}>
+          <Table aria-label="simple table" className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <TableCell align="left" className={classes.bold}>
+                  Title
+                </TableCell>
+                <TableCell align="left" className={classes.minWidth}>
+                  Image
+                </TableCell>
+                <TableCell align="left" className={classes.minWidth}>
+                  Count
+                </TableCell>
+                <TableCell align="left" className={classes.minWidth}>
+                  Size
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            {orderDetails.map((order) =>
+              order.products.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell>{item.title}</TableCell>
+                  <TableCell>
+                    <img src={item.image} style={{width: 90, marginLeft: -25}} alt="itemImage" />
+                  </TableCell>
+                  <TableCell style={{textAlign: 'left'}}>{item.count}</TableCell>
+                  <TableCell style={{textAlign:'left'}}>{item.size}</TableCell>
+                </TableRow>
+              ))
+            )}
+          </Table>
+        </TableContainer>
+      </Modal>
+      <TableContainer component={Paper}>
         <Table aria-label="simple table" className={classes.table}>
-
-        <TableHead >
-            <TableRow className={classes.thead}>
-              <TableCell align="left" className={classes.bold}>ID</TableCell>
-              <TableCell align="left"  className={classes.bold}>Image</TableCell>
-              <TableCell align="left"  className={classes.bold}>Title</TableCell>
-              <TableCell align="left"  className={classes.bold}>Category</TableCell>
-              <TableCell align="left"  className={classes.bold}>Description</TableCell>
-              <TableCell align="left"  className={classes.bold}>Size</TableCell>
-              <TableCell align="left"  className={classes.bold}>Discount</TableCell>
-              <TableCell align="left"  className={classes.bold}>Count</TableCell>
-              <TableCell colSpan="2" align="left"  className={classes.bold && classes.paddingLeft}>Actions</TableCell>
+          <TableHead>
+            <TableRow>
+              <TableCell align="left" className={classes.bold}>
+                ID
+              </TableCell>
+              <TableCell align="left" className={classes.minWidth}>
+                First Name
+              </TableCell>
+              <TableCell align="left" className={classes.minWidth}>
+                Address
+              </TableCell>
+              <TableCell align="left" className={classes.minWidth}>
+                Phone number
+              </TableCell>
+              <TableCell align="left" className={classes.minWidth1}>
+                Ordered Quantity
+              </TableCell>
+              <TableCell align="left" className={classes.bold}>
+                Card Name
+              </TableCell>
+              <TableCell
+                align="left"
+                pageSize={7}
+                className={classes.bold && classes.minWidth}
+              >
+                Card Number
+              </TableCell>
+              <TableCell
+                colSpan="2"
+                align="left"
+                className={classes.bold && classes.paddingLeft}
+              >
+                Actions
+              </TableCell>
             </TableRow>
           </TableHead>
-        {cartItems.map(item => (
+          {orderedItems.map((item) => (
             <TableRow key={item.id}>
-            <TableCell>{item.id}</TableCell>
-            <TableCell>
-            <img src={item.image} alt={item.title} className={classes.img}/></TableCell>
-            <TableCell>{item.title}</TableCell>
-            <TableCell>{item.category}</TableCell>
-            <TableCell>{item.description}</TableCell>
-            <TableCell>{item.size}</TableCell>
-            <TableCell>{item.discount}</TableCell>
-            <TableCell>{item.count}</TableCell>
-            <TableCell>
-                <Button> <Link to={`/admin/orderManagement/editOrders/${item.id}`} className={classes.color}>
-                  <EditIcon/></Link> </Button>
-            </TableCell>
-            <TableCell>
-                <Button  className={classes.color} onClick={()=>handleRemoveProduct(item.id)}><DeleteIcon/></Button>
-            </TableCell>
-          </TableRow>
-        ))}
-  </Table>
-  </TableContainer>   
+              <TableCell>{item.id}</TableCell>
+              <TableCell>{item.firstName}</TableCell>
+              <TableCell>{item.address}</TableCell>
+              <TableCell>{item.phoneNumber}</TableCell>
+              <TableCell align="center">{item.products.length}</TableCell>
+              <TableCell>
+                {item.nameOfCard ? item.nameOfCard : "None"}
+              </TableCell>
+              <TableCell>
+                {item.cardNumber ? item.cardNumber : "None"}
+              </TableCell>
+              <TableCell>
+                <Button onClick={() => handleTab(item.id)}>
+                  {" "}
+                  <DetailsIcon />
+                </Button>
+              </TableCell>
+              <TableCell>
+                <Button
+                  className={classes.color}
+                  onClick={() => deleteOrder(item.id)}
+                >
+                  <DeleteIcon />
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </Table>
+      </TableContainer>
+    </>
+  );
+};
 
-    )
-}
-
-export default ManageOrder
-
+export default ManageOrder;

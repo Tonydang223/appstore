@@ -1,9 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import data from "../data/data.json";
-import axios from "axios";
 import formatNumber from "../util2";
 import api from "../api/api";
-import { isUuid } from "uuidv4";
 import { useHistory } from "react-router";
 export const ProductContext = createContext();
 
@@ -23,11 +21,11 @@ const ProductContextProvider = ({ children }) => {
       ? JSON.parse(localStorage.getItem("cartItems"))
       : []
   );
-  const [orders, setOrders] = useState(
-    localStorage.getItem("orders")
-      ? JSON.parse(localStorage.getItem("orders"))
-      : []
-  );
+  // const [orders, setOrders] = useState(
+  //   localStorage.getItem("orders")
+  //     ? JSON.parse(localStorage.getItem("orders"))
+  //     : []
+  // );
   const productFilter = (value) => {
     return value.filter((val) => {
       if (searchTerm === "") {
@@ -70,7 +68,26 @@ const ProductContextProvider = ({ children }) => {
       console.log(error.message);
     }
   };
-  console.log(orderedItems)
+  const getOrder = async () => {
+    try {
+      const res = await api.get("/orders");
+      return res.data;
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  const deleteOrder = async (id) => {
+    try {
+      await api.delete(`/orders/${id}`);
+      const newOrderedList = orderedItems.filter((item) => {
+        return item.id !== id;
+      });
+      setorderedItems(newOrderedList);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  console.log(orderedItems);
   const removeProduct = async (id) => {
     try {
       await api.delete(`/products/${id}`);
@@ -98,6 +115,13 @@ const ProductContextProvider = ({ children }) => {
     };
     getdatas();
   }, []);
+  useEffect(() => {
+    const getdatasOrdered = async () => {
+      const allOrders = await getOrder();
+      if (allOrders) setorderedItems(allOrders);
+    };
+    getdatasOrdered();
+  }, []);
 
   const handleAddClick = (productValue) => {
     console.log(productValue);
@@ -110,8 +134,19 @@ const ProductContextProvider = ({ children }) => {
             : item;
         })
       );
+      localStorage.setItem(
+        "cartItems",
+        JSON.stringify(
+          cartItems.map((item) => {
+            return item.id === productValue.id
+              ? { ...currentProduct, count: currentProduct.count + 1 }
+              : item;
+          })
+        )
+      );
     }
   };
+
   const handleRemoveClick = (productValue) => {
     const currentProduct = cartItems.find((x) => x.id === productValue.id);
     if (currentProduct.count === 1) {
@@ -122,6 +157,16 @@ const ProductContextProvider = ({ children }) => {
             : item;
         })
       );
+      localStorage.setItem(
+        "cartItems",
+        JSON.stringify(
+          cartItems.map((item) => {
+            return item.id === productValue.id
+              ? { ...currentProduct, count: 1 }
+              : item;
+          })
+        )
+      );
     } else {
       setCartItems(
         cartItems.map((item) => {
@@ -129,6 +174,16 @@ const ProductContextProvider = ({ children }) => {
             ? { ...currentProduct, count: currentProduct.count - 1 }
             : item;
         })
+      );
+      localStorage.setItem(
+        "cartItems",
+        JSON.stringify(
+          cartItems.map((item) => {
+            return item.id === productValue.id
+              ? { ...currentProduct, count: currentProduct.count - 1 }
+              : item;
+          })
+        )
       );
     }
   };
@@ -148,12 +203,12 @@ const ProductContextProvider = ({ children }) => {
     }
     localStorage.removeItem("orders");
   };
-  const takeOrderValues = (value) => {
-    if (value) {
-      setOrders([{ ...orders, ...value }]);
-    }
-    return;
-  };
+  // const takeOrderValues = (value) => {
+  //   if (value) {
+  //     setOrders([{ ...orders, ...value }]);
+  //   }
+  //   return;
+  // };
   const handleRemoveProduct = (id) => {
     const currentProduct = cartItems.find((x) => x.id === id);
     const cartValue = [...cartItems];
@@ -293,7 +348,9 @@ const ProductContextProvider = ({ children }) => {
     setCategory,
     cartItems,
     setIsFilter,
-    takeOrderValues,
+    orderedItems,
+    deleteOrder,
+    // takeOrderValues,
     orderDetails,
     setOrderDetails,
     saveOrder,

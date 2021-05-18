@@ -25,13 +25,13 @@ const Home = () => {
             </div>
             <div className="home__below--content">
               {topProducts.map((product) => (
-                <div className="products__item" key={product._id}>
+                <div className="products__item" key={product.id}>
                   <Link to={`/product/${product._id}`}>
                     <img src={product.image} alt={product.src} />
                   </Link>
                   <div className="products__item--content">
                     <h3>
-                      <Link to={`/product/${product._id}`}>
+                      <Link to={`/product/${product.id}`}>
                         {product.title}
                       </Link>
                     </h3>

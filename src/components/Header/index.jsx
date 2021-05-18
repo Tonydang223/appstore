@@ -16,6 +16,7 @@ const Header = () => {
   const onClickLogOut = () => {
     setCurrentUser("");
     setCartItems([]);
+    localStorage.removeItem("cartItems");
     localStorage.removeItem("current", JSON.stringify(currentUser));
     history.push("/signIn");
   };
