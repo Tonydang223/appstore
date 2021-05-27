@@ -3,8 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import { ProductContext } from "../../contexts/ProductContext";
 import { UsersContext } from "../../contexts/UsersContext";
 import "../../css/ProductDetails.scss";
-import formatCurrency from "../../util";
-import formatNumber from "../../util2";
+import EvaluateForm from "../EvaluateForm";
+import Star from "../Star";
 import ProductDetailsCount from "./ProductDetailsCount";
 import ProductSize from "./ProductSize";
 const ProductDetails = () => {
@@ -13,10 +13,7 @@ const ProductDetails = () => {
   const { id } = useParams();
   // const newProducts = products.filter((newProduct) => newProduct.id === id);
   const newProducts = products.filter((newProduct) => newProduct.id == id);
-  console.log(products);
-  console.log(newProducts);
   const productId = newProducts.map((product) => product.id);
-  console.log(productId);
   const [formValue, setFormValue] = useState({
     count: 0,
     size: "",
@@ -45,6 +42,22 @@ const ProductDetails = () => {
     }
   };
 
+  const handleEvaluating = (formValue) => {
+    console.log(formValue);
+  };
+
+  const countingPercent = (dis, cur) => {
+    const percentage = ((parseInt(dis) - parseInt(cur)) / parseInt(dis)) * 100;
+    return +percentage.toFixed(1).toLocaleString() + "%";
+  };
+
+  const countingSaving = (dis, cur) => {
+    const saving = parseInt(dis) - parseInt(cur);
+    return saving.toFixed(1).toLocaleString() + "$";
+  };
+
+  console.log(countingPercent(90, 69.9));
+
   return (
     <>
       {newProducts.map((item) => (
@@ -53,7 +66,18 @@ const ProductDetails = () => {
           <div className="product__details--content">
             <div className="product__content--above">
               <h2>{item.title}</h2>
-              <span>{item.price}</span>
+              <span>${item.price}</span>
+            </div>
+            <div className="product__content--price">
+              <span className="discount">{item.discount}</span>{" "}
+              <span>${item.price}</span>
+              <p style={{ color: "red", margin: "1rem" }}>
+                Reduce {countingPercent(item.discount, item.price)} and saving{" "}
+                {countingSaving(item.discount, item.price)}
+              </p>
+            </div>
+            <div className="product__content--star">
+              <Star rating={item.rate} />
             </div>
             <div className="product__content--below">
               AvailableSizes:{" "}
@@ -81,6 +105,9 @@ const ProductDetails = () => {
                   <button className="cart" onClick={handleSubmit}>
                     Add to cart
                   </button>
+                </div>
+                <div className="product__below--evaluates">
+                  <EvaluateForm id={item.id} />
                 </div>
               </form>
             </div>

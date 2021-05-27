@@ -16,6 +16,7 @@ const ProductContextProvider = ({ children }) => {
   const [category, setCategory] = useState("");
   const [orderDetails, setOrderDetails] = useState({});
   const [orderedItems, setorderedItems] = useState([]);
+  const [evualates, setEvualates] = useState([]);
   const [cartItems, setCartItems] = useState(
     localStorage.getItem("cartItems")
       ? JSON.parse(localStorage.getItem("cartItems"))
@@ -52,6 +53,7 @@ const ProductContextProvider = ({ children }) => {
       const requets = {
         id: random,
         ...values,
+        rate: [],
       };
       const res = await api.post("/products", requets);
       setProducts([...products, res.data]);
@@ -88,6 +90,24 @@ const ProductContextProvider = ({ children }) => {
     }
   };
   console.log(orderedItems);
+  //evualate
+  const addEvualuate = async (evualate) => {
+    try {
+      const res = await api.post("/evualates", evualate);
+      setEvualates([...evualates, res.data]);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const getEvualudate = async () => {
+    try {
+      const res = await api.get("/evualates");
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const removeProduct = async (id) => {
     try {
       await api.delete(`/products/${id}`);
@@ -108,6 +128,12 @@ const ProductContextProvider = ({ children }) => {
       })
     );
   };
+
+  const updateEvaluate = async (values, valueId) => {
+    const res = await api.get("/products");
+    const currentProduct = res.data.filter((product) => product.id === valueId);
+
+  };
   useEffect(() => {
     const getdatas = async () => {
       const allProducts = await received();
@@ -115,6 +141,7 @@ const ProductContextProvider = ({ children }) => {
     };
     getdatas();
   }, []);
+
   useEffect(() => {
     const getdatasOrdered = async () => {
       const allOrders = await getOrder();
@@ -122,7 +149,13 @@ const ProductContextProvider = ({ children }) => {
     };
     getdatasOrdered();
   }, []);
-
+  useEffect(() => {
+    const getdatasEvualate = async () => {
+      const allEvualate = await getEvualudate();
+      if (allEvualate) setEvualates(allEvualate);
+    };
+    getdatasEvualate();
+  }, []);
   const handleAddClick = (productValue) => {
     console.log(productValue);
     const currentProduct = cartItems.find((x) => x.id === productValue.id);
@@ -350,10 +383,13 @@ const ProductContextProvider = ({ children }) => {
     setIsFilter,
     orderedItems,
     deleteOrder,
+    updateEvaluate,
     // takeOrderValues,
     orderDetails,
     setOrderDetails,
     saveOrder,
+    addEvualuate,
+    evualates,
   };
   return (
     <ProductContext.Provider value={productContextData}>

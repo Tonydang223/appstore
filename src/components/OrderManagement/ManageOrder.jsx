@@ -35,7 +35,7 @@ const ManageOrder = () => {
   };
   const useStyles = makeStyles({
     table: {
-      minWidth: 600,
+      minWidth: 700,
       margin: 30,
       padding: 20,
     },
@@ -61,12 +61,14 @@ const ManageOrder = () => {
       fontFamily: "Arial, Helvetica, sans-serif",
     },
     paddingLeft: {
-      paddingLeft: 30,
+      paddingLeft: 37,
       fontWeight: "bold",
       fontSize: 13,
     },
     color: {
       color: "#004040",
+      minWidth: 40,
+      marginRight: 20
     },
     hover: {
       "&:hover": {

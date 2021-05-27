@@ -17,6 +17,7 @@ import SignUp from "../components/Login and Register/SignUp";
 import api from "../api/api";
 import UsersContextProvider from "../contexts/UsersContext";
 import ContactContextProvider from "../contexts/ContactContext";
+import MainPage from "../components/MainPage";
 const HomePage = () => {
   return (
     <div className="grid-container">
@@ -27,7 +28,8 @@ const HomePage = () => {
               <Header />
               <Switch>
                 <Route exact path="/">
-                  <Home />
+                  {/* <Home /> */}
+                  <MainPage />
                 </Route>
                 <Route exact path="/product">
                   <Products />

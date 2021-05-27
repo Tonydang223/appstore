@@ -1,84 +1,59 @@
 import React from "react";
-import "./Footer.scss";
+import "./Footer.css";
+import Payment from "../../assets/image/payment.png";
 const Footer = () => {
   return (
     <>
-      <footer>
-        <div className="footer">
-          <div className="footer__container">
-            <div className="footer__container--row">
-              <div className="footer__container--col">
-                <h4>Company</h4>
-                <ul>
-                  <li>
-                    <a href="#" target="_blank" rel="noopener">
-                      About us
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">Our services</a>
-                  </li>
-                  <li>
-                    <a href="#">Privacy policy</a>
-                  </li>
-                  <li>
-                    <a href="#">Affiliates program</a>
-                  </li>
-                </ul>
+      <footer id="footer" className=" footer">
+        <div className="container">
+          <div className="footer-container">
+            <div className="footer-center">
+              <h3>EXTRAS</h3>
+              <a href="#">Brands</a>
+              <a href="#">Gift Certificates</a>
+              <a href="#">Affiliate</a>
+              <a href="#">Specials</a>
+              <a href="#">Site Map</a>
+            </div>
+            <div className="footer-center">
+              <h3>INFORMATION</h3>
+              <a href="#">About Us</a>
+              <a href="#">Privacy Policy</a>
+              <a href="#">Terms And Conditions</a>
+              <a href="#">Contact Us</a>
+              <a href="#">Site Map</a>
+            </div>
+            <div className="footer-center">
+              <h3>MY ACCOUNT</h3>
+              <a href="#">My Account</a>
+              <a href="#">Order History</a>
+              <a href="#">Wish List</a>
+              <a href="#">Newsletter</a>
+              <a href="#">Returns</a>
+            </div>
+
+            <div className="footer-center">
+              <h3>CONTACT US</h3>
+              <div>
+                <span>
+                  <i className="fas fa-map-marker-alt"></i>
+                </span>
+                42 Dream House, Dreammy street, 7131 Dreamville, USA
               </div>
-              <div className="footer__container--col">
-                <h4>Get Helps</h4>
-                <ul>
-                  <li>
-                    <a href="#">FAQ</a>
-                  </li>
-                  <li>
-                    <a href="#">Shipping</a>
-                  </li>
-                  <li>
-                    <a href="#">Returns</a>
-                  </li>
-                  <li>
-                    <a href="#">Order status</a>
-                  </li>
-                  <li>
-                    <a href="#">Payment options</a>
-                  </li>
-                </ul>
+              <div>
+                <span>
+                  <i className="far fa-envelope"></i>
+                </span>
+                company@gmail.com
               </div>
-              <div className="footer__container--col">
-                <h4>Online Shop</h4>
-                <ul>
-                  <li>
-                    <a href="#">Pants</a>
-                  </li>
-                  <li>
-                    <a href="#">Trouser</a>
-                  </li>
-                  <li>
-                    <a href="#">T-Shirt</a>
-                  </li>
-                  <li>
-                    <a href="#">Jean</a>
-                  </li>
-                </ul>
+              <div>
+                <span>
+                  <i className="fas fa-phone"></i>
+                </span>
+                456-456-4512
               </div>
-              <div className="footer__container--col">
-                <h4>Follow Us</h4>
-                <div className="social-links">
-                  <a href="#">
-                    <i className="fab fa-facebook-f"></i>
-                  </a>
-                  <a href="#">
-                    <i className="fab fa-twitter"></i>
-                  </a>
-                  <a href="#">
-                    <i className="fab fa-instagram"></i>
-                  </a>
-                  <a href="#">
-                    <i className="fab fa-linkedin-in"></i>
-                  </a>
-                </div>
+              <div className="payment-methods">
+                <img src={Payment} alt="" />
               </div>
             </div>
           </div>
