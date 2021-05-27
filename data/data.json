@@ -1,11 +1,6 @@
 {
   "products": [
     {
-      "id": 1,
-      "image": "https://storage.googleapis.com/cdn.nhanh.vn/store/7136/ps/20210301/134202123412_IMG_3736.jpg",
-      "title": "ÁO SƠ MI NAM STDTK204",
-      "category": "Shirts",
-      "description": "This is for all the latest trends, no matter who you are, where you’re from and what you’re up to. Exclusive to ASOS, our universal brand is here for you, and comes in all our fit ranges: ASOS Curve, Tall, Petite and Maternity. Created by us, styled by you.",
       "availableSizes": [
         "X",
         "L",
@@ -14,14 +9,25 @@
         "XS",
         "S"
       ],
+      "category": "Shirts",
+      "description": "This is for all the latest trends, no matter who you are, where you’re from and what you’re up to. Exclusive to ASOS, our universal brand is here for you, and comes in all our fit ranges: ASOS Curve, Tall, Petite and Maternity. Created by us, styled by you.",
       "discount": "29",
+      "id": 1,
+      "image": "https://storage.googleapis.com/cdn.nhanh.vn/store/7136/ps/20210301/134202123412_IMG_3736.jpg",
       "price": "109",
+      "title": "ÁO SƠ MI NAM STDTK204",
       "rate": [
         {
           "id": 1,
           "name": "h@k.ccc",
           "star": 5,
           "content": "dad"
+        },
+        {
+          "id": "25cbb653-7037-422c-95ae-abb83d405ff7",
+          "star": 3,
+          "content": "asdzxc",
+          "name": "admin@example.com"
         }
       ]
     },
@@ -134,24 +140,30 @@
       ]
     },
     {
-      "id": 9,
-      "image": "https://storage.googleapis.com/cdn.nhanh.vn/store/7136/ps/20210301/124202122422_IMG_3718.jpg",
-      "title": "Midi dress in pink ditsy floral",
-      "category": "Shirts",
-      "description": "This is for all the latest trends, no matter who you are, where you’re from and what you’re up to. Exclusive to ASOS, our universal brand is here for you, and comes in all our fit ranges: ASOS Curve, Tall, Petite and Maternity. Created by us, styled by you.",
       "availableSizes": [
         "X",
         "M",
         "L"
       ],
+      "category": "Shirts",
+      "description": "This is for all the latest trends, no matter who you are, where you’re from and what you’re up to. Exclusive to ASOS, our universal brand is here for you, and comes in all our fit ranges: ASOS Curve, Tall, Petite and Maternity. Created by us, styled by you.",
       "discount": 20,
+      "id": 9,
+      "image": "https://storage.googleapis.com/cdn.nhanh.vn/store/7136/ps/20210301/124202122422_IMG_3718.jpg",
       "price": 14.9,
+      "title": "Midi dress in pink ditsy floral",
       "rate": [
         {
           "id": 1,
           "name": "h@k.ccc",
           "star": 1,
           "content": "fi"
+        },
+        {
+          "id": "320d2a64-95c2-4259-9c51-c09e3974f067",
+          "star": 4,
+          "content": "yiyiyi",
+          "name": "admin@example.com"
         }
       ]
     },

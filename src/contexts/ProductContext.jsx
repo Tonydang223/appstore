@@ -129,10 +129,15 @@ const ProductContextProvider = ({ children }) => {
     );
   };
 
-  const updateEvaluate = async (values, valueId) => {
-    const res = await api.get("/products");
-    const currentProduct = res.data.filter((product) => product.id === valueId);
-
+  const updateEvaluate = async (productValue) => {
+    // const response = await api.put(`/products/${productValue.id}`, productValue);
+    // const { id, name, email,rate } = response.data;
+    // setProducts(
+    //   products.map((product) => {
+    //     return product.id === id ? { ...response.data,rate: ratingValue } : product;
+    //   })
+    // );
+    console.log(productValue);
   };
   useEffect(() => {
     const getdatas = async () => {

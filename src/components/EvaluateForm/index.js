@@ -3,24 +3,51 @@ import ReactStars from "react-rating-stars-component";
 import { ProductContext } from "../../contexts/ProductContext";
 import { UsersContext } from "../../contexts/UsersContext";
 import { v4 as uuidv4 } from "uuid";
-const EvaluateForm = ({ id }) => {
+const EvaluateForm = (props) => {
+  const {
+    productId,
+    availableSizes,
+    category,
+    description,
+    discount,
+    id,
+    image,
+    price,
+    title,
+    rate,
+  } = props;
+
   const { setCurrentUser, currentUser } = useContext(UsersContext);
-  const { updateEvaluate } = useContext(ProductContext);
-  console.log(currentUser);
+  const { updateProduct, products } = useContext(ProductContext);
+  const currentProduct = products.filter((element) => element.id === productId);
+
   const [ratingValue, setRatingValue] = useState({
     id: uuidv4(),
-    rating: "",
+    star: "",
     content: "",
-    currentUser: currentUser,
+    name: currentUser,
+  });
+
+  const [formValue, setFormValue] = useState({
+    availableSizes: availableSizes,
+    category: category,
+    description: description,
+    discount: discount,
+    id: id,
+    image: image,
+    price: price,
+    title: title,
+    rate: rate,
   });
   const ratingChanged = (newRating) => {
-    setRatingValue({ ...ratingValue, rating: newRating });
+    setRatingValue({ ...ratingValue, star: newRating });
   };
   const resetForm = () => {
     setRatingValue({
-      rating: "",
+      id: uuidv4(),
+      star: "",
       content: "",
-      currentUser: currentUser,
+      name: currentUser,
     });
   };
   const handleSubmit = (e) => {
@@ -28,7 +55,19 @@ const EvaluateForm = ({ id }) => {
     if (ratingValue.rating === "" || ratingValue.content === "") {
       alert("you must provide a rating");
     } else {
-      updateEvaluate(ratingValue, id);
+      const rating = rate.push(ratingValue);
+      const newValue = {
+        availableSizes: availableSizes,
+        category: category,
+        description: description,
+        discount: discount,
+        id: id,
+        image: image,
+        price: price,
+        title: title,
+        rate: rate,
+      };
+      updateProduct(newValue);
       resetForm();
     }
   };

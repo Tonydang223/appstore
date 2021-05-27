@@ -107,7 +107,7 @@ const ProductDetails = () => {
                   </button>
                 </div>
                 <div className="product__below--evaluates">
-                  <EvaluateForm id={item.id} />
+                  <EvaluateForm productId={item.id} {...item} />
                 </div>
               </form>
             </div>
