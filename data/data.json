@@ -560,6 +560,14 @@
       "password": "123123123",
       "ConfirmPassword": "123123123",
       "id": 38
+    },
+    {
+      "firstName": "hai dang",
+      "LastName": "huynh ngoc",
+      "email": "haidanghaihai@gmail.com",
+      "password": "123123",
+      "ConfirmPassword": "123123",
+      "id": 39
     }
   ],
   "contacts": [
