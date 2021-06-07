@@ -124,7 +124,23 @@ export default function PaymentForm({
                     </>
                   ) : (
                     <>
-                      <Grid item xs={2}>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-end",
+                          alignItems: "center",
+                          width: "100%",
+                        }}
+                      >
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          type="button"
+                          onClick={handlePrevStep}
+                          style={{ marginRight: "35px" }}
+                        >
+                          Back
+                        </Button>
                         <Button
                           variant="contained"
                           color="primary"
@@ -133,15 +149,7 @@ export default function PaymentForm({
                         >
                           Next
                         </Button>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          type="button"
-                          onClick={handlePrevStep}
-                        >
-                          Back
-                        </Button>
-                      </Grid>
+                      </div>
                     </>
                   )}
                 </Grid>

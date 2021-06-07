@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300&family=Roboto:wght@300&display=swap');
+.EvaluateForm{
+    width: 80%;
+    border-bottom: 0.8px solid rgb(146, 144, 144);
+    margin: 0 auto;
+    h2{
+        font-family: 'Roboto', sans-serif;
+        font-size:20px
+    }
+    textarea{
+        width: 700px;
+        padding:4px 4px;
+        margin-top: 8px;
+        outline: none;
+    }
+    .btn-submit{
+        padding: 8px 70px;
+        margin: 14px 0;
+        border-radius: 5px;
+        border: none;
+        background: rgb(27, 27, 27);
+        color: white;
+        font-family: 'Noto Sans JP', sans-serif;
+        font-size: 14px;
+    }
+    .btn-submit:hover{
+        cursor: pointer;
+        background: rgb(195, 197, 69);
+        transition: 0.8s ease-in-out;
+    }
+}

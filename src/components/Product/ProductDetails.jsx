@@ -1,12 +1,14 @@
+// import { Star } from "@material-ui/icons";
+import Star from "../Star";
 import React, { useContext, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ProductContext } from "../../contexts/ProductContext";
 import { UsersContext } from "../../contexts/UsersContext";
 import "../../css/ProductDetails.scss";
 import EvaluateForm from "../EvaluateForm";
-import Star from "../Star";
 import ProductDetailsCount from "./ProductDetailsCount";
 import ProductSize from "./ProductSize";
+import ReactPaginate from "react-paginate";
 const ProductDetails = () => {
   const { products, handleAddToCartFromDetails } = useContext(ProductContext);
   const { currentUser } = useContext(UsersContext);
@@ -20,6 +22,49 @@ const ProductDetails = () => {
     id: "",
   });
 
+  const [visible, setVisible] = useState(2);
+
+  const showMoreEvaluates = () => {
+    setVisible((prevValue) => prevValue + 2);
+  };
+
+  const ShowStar = (numCount) => {
+    return (
+      <>
+        {numCount >= 1 && numCount < 2 ? (
+          <>
+            <i class="fa fa-star starShow" aria-hidden="true"></i>
+          </>
+        ) : numCount >= 2 && numCount < 3 ? (
+          <>
+            <i class="fa fa-star starShow" aria-hidden="true"></i>
+            <i class="fa fa-star starShow" aria-hidden="true"></i>
+          </>
+        ) : numCount >= 3 && numCount < 4 ? (
+          <>
+            <i class="fa fa-star starShow" aria-hidden="true"></i>
+            <i class="fa fa-star starShow" aria-hidden="true"></i>
+            <i class="fa fa-star starShow" aria-hidden="true"></i>
+          </>
+        ) : numCount >= 4 && numCount < 5 ? (
+          <>
+            <i class="fa fa-star starShow" aria-hidden="true"></i>
+            <i class="fa fa-star starShow" aria-hidden="true"></i>
+            <i class="fa fa-star starShow" aria-hidden="true"></i>
+            <i class="fa fa-star starShow" aria-hidden="true"></i>
+          </>
+        ) : (
+          <>
+            <i class="fa fa-star starShow" aria-hidden="true"></i>
+            <i class="fa fa-star starShow" aria-hidden="true"></i>
+            <i class="fa fa-star starShow" aria-hidden="true"></i>
+            <i class="fa fa-star starShow" aria-hidden="true"></i>
+            <i class="fa fa-star starShow" aria-hidden="true"></i>
+          </>
+        )}
+      </>
+    );
+  };
   const handleChange = (e) => {
     setFormValue({
       ...formValue,
@@ -69,9 +114,7 @@ const ProductDetails = () => {
               <span>${item.price}</span>
             </div>
             <div className="product__content--price">
-              <span className="discount">{item.discount}</span>{" "}
-              <span>${item.price}</span>
-              <p style={{ color: "red", margin: "1rem" }}>
+              <p style={{ color: "red", fontSize: "1.2rem" }}>
                 Reduce {countingPercent(item.discount, item.price)} and saving{" "}
                 {countingSaving(item.discount, item.price)}
               </p>
@@ -106,10 +149,25 @@ const ProductDetails = () => {
                     Add to cart
                   </button>
                 </div>
-                <div className="product__below--evaluates">
-                  <EvaluateForm productId={item.id} {...item} />
-                </div>
               </form>
+            </div>
+          </div>
+          <div className="product_below--evaluates">
+            <EvaluateForm productId={item.id} {...item} />
+            <div className="list-evaluates">
+              {item.rate.slice(0, visible).map((content) => {
+                return (
+                  <div className="content-evaluates">
+                    <h4>{content.name}</h4>
+                    <p className="star">{ShowStar(content.star)}</p>
+                    <p className="time">{content.time}</p>
+                    <p className="content">{content.content}</p>
+                  </div>
+                );
+              })}
+              {visible < item.rate.length && (
+                <button onClick={showMoreEvaluates}>Load more</button>
+              )}
             </div>
           </div>
         </div>

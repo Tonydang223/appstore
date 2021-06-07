@@ -102,17 +102,32 @@ export default function Review({
             )}
           </Grid>
         </Grid>
-        <Button
-          ariant="contained"
-          color="primary"
-          onClick={() => handleSubmit(orderDetails)}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+            width: "100%",
+          }}
         >
-          OK
-        </Button>
-
-        <Button ariant="contained" color="primary" onClick={handlePrevStep}>
-          Back
-        </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            type="button"
+            onClick={handlePrevStep}
+            style={{ marginRight: "35px" }}
+          >
+            Back
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            type="button"
+            onClick={() => handleSubmit(orderDetails)}
+          >
+            OK
+          </Button>
+        </div>
       </Grid>
     </React.Fragment>
   );

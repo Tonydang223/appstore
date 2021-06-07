@@ -18,6 +18,7 @@ import api from "../api/api";
 import UsersContextProvider from "../contexts/UsersContext";
 import ContactContextProvider from "../contexts/ContactContext";
 import MainPage from "../components/MainPage";
+import UseScrollTop from "../components/UseScrollTop";
 const HomePage = () => {
   return (
     <div className="grid-container">
@@ -25,6 +26,7 @@ const HomePage = () => {
         <UsersContextProvider>
           <ProductContextProvider>
             <Router>
+              <UseScrollTop />
               <Header />
               <Switch>
                 <Route exact path="/">

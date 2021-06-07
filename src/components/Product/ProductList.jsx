@@ -7,6 +7,7 @@ import Fade from "react-reveal/Fade";
 import { Result, Button } from "antd";
 import ReactPaginate from "react-paginate";
 import "../../css/Pagination.scss";
+import Star from "../Star";
 const ProductList = ({ products }) => {
   const { handleAddToCart, user } = useContext(ProductContext);
   const { currentUser } = useContext(UsersContext);
@@ -32,6 +33,9 @@ const ProductList = ({ products }) => {
             <h3>
               <Link to={`/product/${product.id}`}>{product.title}</Link>
             </h3>
+            <div className="products__item--star">
+              <Star rating={product.rate} />
+            </div>
             <div className="products__content--price">
               <span>{product.price} $</span>
               <p>{product.discount} $</p>
@@ -45,6 +49,7 @@ const ProductList = ({ products }) => {
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
+
   console.log(products);
   return (
     <>

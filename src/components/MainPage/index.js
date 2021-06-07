@@ -1,13 +1,6 @@
-import React, { useContext, useState } from "react";
-import "./style.css";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import Hero from "../../assets/image/hero.png";
-import Brand1 from "../../assets/image/brand1.png";
-import Brand2 from "../../assets/image/brand2.png";
-import Brand3 from "../../assets/image/brand3.png";
-import Brand4 from "../../assets/image/brand4.png";
-import Brand5 from "../../assets/image/brand5.png";
-import Brand6 from "../../assets/image/brand6.png";
-import Brand7 from "../../assets/image/brand7.png";
 import Promo1 from "../../assets/image/promo1.jpg";
 import Promo2 from "../../assets/image/promo2.jpg";
 import Promo3 from "../../assets/image/promo3.jpg";
@@ -16,10 +9,10 @@ import Promo5 from "../../assets/image/promo5.jpg";
 import Promo6 from "../../assets/image/promo6.jpg";
 import Promo7 from "../../assets/image/promo7.jpg";
 import Promo8 from "../../assets/image/promo8.jpg";
-import Footer from "../Footer";
 import { ProductContext } from "../../contexts/ProductContext";
+import Footer from "../Footer";
 import Star from "../Star";
-import { Link } from "react-router-dom";
+import "./style.css";
 const MainPage = () => {
   const { products, handleAddToCart } = useContext(ProductContext);
   const productBestSeller = products.slice(0, 6);

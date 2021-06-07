@@ -55,11 +55,18 @@
               color: crimson;
             }
           }
+          .products__item--star {
+            h2 {
+              margin: 0;
+              padding: 0;
+            }
+          }
           .products__content--price {
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 20px;
+            margin-top: 0.5rem;
             span {
               color: crimson;
             }
@@ -67,6 +74,8 @@
               color: gray;
               text-decoration: line-through;
               font-style: italic;
+              margin: 0;
+              padding: 0;
             }
           }
 
