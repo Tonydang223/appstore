@@ -4,3 +4,24 @@
         list-style: none;
     } 
 }
+.btn-load{
+    button{
+        padding: 10px 10px;
+        background: #004040;
+        border-radius: 4px;
+        height: 40px;
+        width: 120px;
+        display: block;
+        margin-top: 30px;
+        color: #fff;
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+    button:hover{
+        background: #013636;
+        width: 120px;
+        margin-top: 30px;
+    }
+    
+}

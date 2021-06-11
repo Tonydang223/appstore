@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import "../../css/Admin.scss";
+import "../Admin/Admin.scss";
 import AccountManagement from "../AccountManagement";
 import ContactManagement from "../ContactManagement";
 import OrderManagement from "../OrderManagement";

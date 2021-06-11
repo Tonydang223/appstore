@@ -8,6 +8,7 @@ export const ContactContext = createContext();
 
 const ContactContextProvider = ({children}) => {
     const [contacts,setContact]= useState([]);
+    // json-server get contact
     const getAllContacts = async()=>{
         try {
             const res = await api.get("/contacts"); 
@@ -18,6 +19,7 @@ const ContactContextProvider = ({children}) => {
         }
 
     }
+    // json-server post contact
     const addContact = async(values)=>{
         try {
             const res = await api.post("/contacts",values)
@@ -26,6 +28,7 @@ const ContactContextProvider = ({children}) => {
             console.log(error.message);
         }
     }
+    // json-server delete contact
     const removeContact = async(id)=>{
         try {
             const res = await api.delete(`/contacts/${id}`)
@@ -35,6 +38,7 @@ const ContactContextProvider = ({children}) => {
             console.log(error.message);
         }
     }
+    // json-server update contact
     const updateContact = async(values)=>{
         try {
             const res = await api.put(`/contacts/${values.id}`,values)
@@ -49,6 +53,7 @@ const ContactContextProvider = ({children}) => {
             console.log(error.message);
         }
     }
+    //save contacts
     useEffect(() => {
         getAllContacts();
     },[])

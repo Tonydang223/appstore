@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { ProductContext } from "../../contexts/ProductContext";
-import "../../css/Products.scss";
+import "./Products.scss";
 import Filter from "../Filter";
 import ProductList from "./ProductList";
 const Products = () => {

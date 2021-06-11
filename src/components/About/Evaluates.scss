@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Rajdhani:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Rajdhani:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Abel&family=Anton&family=Rajdhani:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Abel&family=Anton&family=Bebas+Neue&family=Rajdhani:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Abel&family=Anton&family=Bebas+Neue&family=Pacifico&family=Rajdhani:wght@400;600;700&display=swap');
+.evaluate-container{
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    .text-top{
+        width: 450px;
+        height: 35px;
+        position:absolute;
+        background-color: #ffffff;
+        text-align: left;
+        letter-spacing: 7px;
+        margin: 40px 0;
+        h1{
+            animation: 1s right-to-left;
+            font-family: 'Abel', sans-serif;
+            font-size: 25px;
+            margin-top:-1px
+        }
+    }
+    .below-content{
+       position: absolute;
+       width: 500px;
+       height:530px;
+       background-color: rgb(247, 242, 242);
+       margin-top:120px;
+       margin-left: 64px;
+       border: 0.8px solid black;
+       outline:1px solid #fff;
+       .top{
+        font-family: 'Dancing Script', cursive;
+        font-size: 18px;
+        margin: 0 40px;
+        border-bottom: 0.8px solid gray;
+        height:30px;
+        h3{
+            letter-spacing:3px;
+            animation: 1s top-to-bottom;
+
+        }
+        @keyframes right-to-left{
+            0%{
+                transform: translateX(-100%);
+            }
+            100%{
+                transform: translate(0);
+            }
+         }
+         @keyframes top-to-bottom {
+            0%{
+                transform: translateY(-100%);
+            }
+            100%{
+                transform: translate(0);
+            }
+         }
+
+       }
+       $dash-size: 1px;
+$theme-color: rgb(44, 48, 45);
+$fill-color: rgb(255, 255, 250);
+       .reviews{
+           width: 80%;
+           height:430px;
+           margin:18px 50px;
+           background-image: url("https://blog.edesk.com/resources/wp-content/uploads/2021/04/amazon-review-tool.png");
+           background-position: center;
+           background-repeat: no-repeat;
+           background-size: cover;
+           position: absolute;
+           border-radius: 2% 6% 5% 4% / 1% 1% 2% 4%;
+           border: 1px solid gray;
+            ul{
+                list-style-type: none;
+                color: black;
+                background-color: white;
+                width: 250px;
+                margin: 16.5px 70px;
+                
+                border: $dash-size dashed $theme-color;
+	box-shadow: 0 0 0 ($dash-size / 2) darken($theme-color, 10%),
+		        0 0 0 ($dash-size * 2) #fff,
+		        inset 0 0 0 ($dash-size / 1) darken($theme-color, 10%),
+		        0 $dash-size ($dash-size * 1) ($dash-size * 3) rgba(0,0,0,0.5),
+		        inset 0 0 0 ($dash-size * 1.2) #fff,
+		        inset 0 0 50vw 50vw $fill-color;
+            }
+            li{
+             font-size:12px;
+             font-family: 'Abel', sans-serif;
+             text-transform: capitalize;
+             padding:4px 0;
+            } 
+            &::before{
+                content: '';
+                border: 1px solid #353535;
+                display: block;
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate3d(-50%, -50%, 0) scale(1.015) rotate(0.5deg);
+                border-radius: 1% 1% 2% 4% / 2% 6% 5% 4%;
+            }     
+       }
+    }
+}

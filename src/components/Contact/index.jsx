@@ -1,13 +1,14 @@
 import React, { useContext } from "react";
-import "../../css/Contact.scss";
+// import "./Contact.scss";
 import Fade from "react-reveal/Fade";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import ContactField from "./ContactField";
 import ContactInputField from "./ContactInputField";
 import { ContactContext } from "../../contexts/ContactContext";
+import "../Contact/Contact.scss";
 const Contact = () => {
-  const {addContact} = useContext(ContactContext)
+  const { addContact } = useContext(ContactContext);
   const validate = Yup.object({
     fullName: Yup.string()
       .max(15, "Must be 15 characters or less")
@@ -29,9 +30,9 @@ const Contact = () => {
         <Formik
           initialValues={{ fullName: "", email: "", phone: "", message: "" }}
           onSubmit={(values, { setSubmitting, resetForm }) => {
-                 console.log(values);
-                 addContact(values);
-                 resetForm();
+            console.log(values);
+            addContact(values);
+            resetForm();
           }}
           validationSchema={validate}
         >

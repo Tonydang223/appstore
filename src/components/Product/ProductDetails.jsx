@@ -4,7 +4,7 @@ import React, { useContext, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ProductContext } from "../../contexts/ProductContext";
 import { UsersContext } from "../../contexts/UsersContext";
-import "../../css/ProductDetails.scss";
+import "./ProductDetails.scss";
 import EvaluateForm from "../EvaluateForm";
 import ProductDetailsCount from "./ProductDetailsCount";
 import ProductSize from "./ProductSize";

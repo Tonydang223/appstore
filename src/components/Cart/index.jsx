@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import Fade from "react-reveal/Fade";
 import { Link } from "react-router-dom";
 import { ProductContext } from "../../contexts/ProductContext";
-import "../../css/Cart.scss";
+import "./Cart.scss";
 import formatCurrency from "../../util";
 import plusBtn from "../../svg/plus.svg";
 import minusBtn from "../../svg/minus.svg";

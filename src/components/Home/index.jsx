@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import { ProductContext } from "../../contexts/ProductContext";
 import { Link } from "react-router-dom";
-import "../../css/Home.scss";
+// import "./Home.scss";
 import formatCurrency from "../../util";
+import "./Home.scss";
 import Fade from "react-reveal/Fade";
 const Home = () => {
   const { products } = useContext(ProductContext);
@@ -31,9 +32,7 @@ const Home = () => {
                   </Link>
                   <div className="products__item--content">
                     <h3>
-                      <Link to={`/product/${product.id}`}>
-                        {product.title}
-                      </Link>
+                      <Link to={`/product/${product.id}`}>{product.title}</Link>
                     </h3>
                     <div className="products__content--price">
                       <span>{product.price}</span>

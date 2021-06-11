@@ -6,6 +6,10 @@ import Fade from "react-reveal/Fade";
 import { Link } from "react-router-dom";
 import { ProductContext } from "../../contexts/ProductContext";
 import TextField from "@material-ui/core/TextField";
+import SearchSharpIcon from "@material-ui/icons/SearchSharp";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import SearchIcon from "@material-ui/icons/Search";
+import "../../css/RemoveUnderline.scss";
 const ManageProduct = ({ show, setShow }) => {
   const { products, removeProduct, updateProduct, setProducts } =
     useContext(ProductContext);
@@ -14,7 +18,6 @@ const ManageProduct = ({ show, setShow }) => {
     e.preventDefault();
     setSearch(e.target.value);
   };
-  console.log(search);
   const searchValue = (val) => {
     const filterSearch = val.filter((product) => {
       if (search === "") {
@@ -31,7 +34,6 @@ const ManageProduct = ({ show, setShow }) => {
   };
 
   const [visible, setVisible] = useState(10);
-
   const showMoreProducts = () => {
     setVisible((prevValue) => prevValue + 10);
   };
@@ -45,7 +47,15 @@ const ManageProduct = ({ show, setShow }) => {
           color="secondary"
           name="search"
           value={search}
+          style={{ marginBottom: "50px", width: "200px" }}
           onChange={onChange}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
         />
         <table>
           <thead>
@@ -104,9 +114,9 @@ const ManageProduct = ({ show, setShow }) => {
 
           <tfoot>
             <tr>
-              <td>
+              <td className="btn-load">
                 {visible < products.length && (
-                  <button onClick={showMoreProducts}>Load more</button>
+                  <Button onClick={showMoreProducts}>Load more</Button>
                 )}
               </td>
             </tr>

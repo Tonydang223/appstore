@@ -1,13 +1,38 @@
-import React, { useContext } from 'react'
+import React, { useContext,useState } from 'react'
 import { Link, useHistory, useRouteMatch } from 'react-router-dom'
 import { ContactContext } from '../../contexts/ContactContext'
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, makeStyles, ButtonGroup, Button} from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import TextField from "@material-ui/core/TextField";
+import SearchSharpIcon from '@material-ui/icons/SearchSharp';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import SearchIcon from "@material-ui/icons/Search";
+import "../../css/RemoveUnderline.scss";
 
 const ManageContact = () => {
     const {contacts,removeContact} = useContext(ContactContext)
     console.log(contacts)
+    const[searchContact,setContact] = useState("")
+    const onChange = (e) => {
+      e.preventDefault();
+      setContact(e.target.value);
+    };
+    const searchValueContact = (val) => {
+      const filterContact = val.filter((cont) => {
+        if (searchContact === "") {
+          return cont;
+        } else if  (
+          cont.fullName.toLowerCase().includes(searchContact.toLowerCase()) ||
+          cont.email.toLowerCase().includes(searchContact.toLowerCase()) ||
+          cont.message.toLowerCase().includes(searchContact.toLowerCase()) ||
+          cont.phone.toString().includes(searchContact.toLowerCase())
+        ) {
+          return cont;
+        }
+      });
+      return filterContact;
+    };
     const useStyles = makeStyles({
       table: {
         minWidth: 300,
@@ -34,6 +59,24 @@ const ManageContact = () => {
     });
     const classes = useStyles();
     return (
+      <>
+          <TextField
+          id="standard-secondary"
+          label="Search"
+          color="secondary"
+          name="search"
+          value={searchContact}
+          style={{marginBottom:"50px",width:"200px",textAlign:"left"}}
+          onChange={onChange}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+             )
+            }}
+      />
+      <div>
       <TableContainer component={Paper}>
           <Table aria-label="simple table" className={classes.table}>
             <TableHead>
@@ -47,7 +90,7 @@ const ManageContact = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {contacts.map(contact => (
+              {searchValueContact(contacts).map(contact => (
                 <TableRow key={contact.id}>
                   <TableCell>{contact.id}</TableCell>
                   <TableCell>
@@ -67,7 +110,8 @@ const ManageContact = () => {
             </TableBody>
           </Table>
           </TableContainer>
-
+          </div>
+        </>
     )
 }
 

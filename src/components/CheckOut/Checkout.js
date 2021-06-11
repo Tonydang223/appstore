@@ -12,7 +12,6 @@ import Review from "./Review";
 
 import { ProductContext } from "../../contexts/ProductContext";
 const Checkout = () => {
-  const [value, setValue] = useState({});
   const [step, setStep] = useState(0);
   const handleNextStep = () => {
     setStep(step + 1);

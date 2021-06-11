@@ -4,7 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import Menu from "../../svg/bars-solid.svg";
 import Close from "../../svg/times-solid.svg";
 import CartIcon from "../../svg/shopping-cart-solid.svg";
-import "../../css/Header.scss";
+import "./Header.scss";
 import logo from "../../assets/image/logo.png";
 import { UsersContext } from "../../contexts/UsersContext";
 import Account from "../Login and Register/Account";

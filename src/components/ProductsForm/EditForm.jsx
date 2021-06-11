@@ -71,9 +71,9 @@ const EditForm = () => {
             //   errors.discount = "Discount Required"
             // }
   
-            if(!values.price.trim()){
-              errors.price = "Price Required"
-            }
+            // if(!values.price.trim()){
+            //   errors.price = "Price Required"
+            // }
             if(!values.image.trim()){
               errors.image = "Image Required"
             }
@@ -82,7 +82,8 @@ const EditForm = () => {
         }}
         onSubmit={(values,id) => {
             console.log(values);
-            updateProduct(values,id)
+            updateProduct(values,id);
+            alert("You updated successfully!");
         }}
       >
         {({

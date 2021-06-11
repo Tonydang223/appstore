@@ -6,11 +6,11 @@ const Star = ({ rating }) => {
     let numArr = [];
     let numberStar;
 
-    if (rating.length < 0) {
+    if (rating?.length < 0) {
       return "Không có đánh giá";
     }
 
-    if (rating.length > 0) {
+    if (rating?.length > 0) {
       rating.map((e) => {
         numArr.push(parseInt(e.star));
       });
@@ -56,7 +56,11 @@ const Star = ({ rating }) => {
     }
   };
 
-  return <>{producStart()}</>;
+  return (
+    <>
+      {producStart()}
+    </>
+  );
 };
 
 export default Star;

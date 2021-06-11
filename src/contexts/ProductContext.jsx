@@ -17,16 +17,16 @@ const ProductContextProvider = ({ children }) => {
   const [orderDetails, setOrderDetails] = useState({});
   const [orderedItems, setorderedItems] = useState([]);
   const [evualates, setEvualates] = useState([]);
+  const [productFiltered, setProductFiltered] = useState([]);
+  const [isFilter, setIsFilter] = useState(false);
   const [cartItems, setCartItems] = useState(
     localStorage.getItem("cartItems")
       ? JSON.parse(localStorage.getItem("cartItems"))
       : []
   );
-  // const [orders, setOrders] = useState(
-  //   localStorage.getItem("orders")
-  //     ? JSON.parse(localStorage.getItem("orders"))
-  //     : []
-  // );
+  const random = Math.floor(Math.random() * 1000);
+
+  // handleSearch
   const productFilter = (value) => {
     return value.filter((val) => {
       if (searchTerm === "") {
@@ -39,28 +39,8 @@ const ProductContextProvider = ({ children }) => {
   const handleFilterProducts = (product) => {
     setProductFiltered(product);
   };
-  const [productFiltered, setProductFiltered] = useState([]);
-  const [isFilter, setIsFilter] = useState(false);
-  const received = async () => {
-    const res = await api.get("/products");
-    return res.data;
-  };
-  const random = Math.floor(Math.random() * 1000);
 
-  const addProduct = async (values) => {
-    try {
-      console.log(values);
-      const requets = {
-        id: random,
-        ...values,
-        rate: [],
-      };
-      const res = await api.post("/products", requets);
-      setProducts([...products, res.data]);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  // json-server for order
   const saveOrder = async (order) => {
     console.log(order);
     try {
@@ -89,25 +69,34 @@ const ProductContextProvider = ({ children }) => {
       console.log(error.message);
     }
   };
-  console.log(orderedItems);
-  //evualate
-  const addEvualuate = async (evualate) => {
+  useEffect(() => {
+    const getdatasOrdered = async () => {
+      const allOrders = await getOrder();
+      if (allOrders) setorderedItems(allOrders);
+    };
+    getdatasOrdered();
+  }, []);
+
+  // json-server CRUD for Product
+  const received = async () => {
+    const res = await api.get("/products");
+    return res.data;
+  };
+  const addProduct = async (values) => {
     try {
-      const res = await api.post("/evualates", evualate);
-      setEvualates([...evualates, res.data]);
+      console.log(values);
+      const requets = {
+        id: random,
+        ...values,
+        rate: [],
+      };
+      const res = await api.post("/products", requets);
+      setProducts([...products, res.data]);
     } catch (error) {
       console.log(error.message);
     }
   };
 
-  const getEvualudate = async () => {
-    try {
-      const res = await api.get("/evualates");
-      return res.data;
-    } catch (error) {
-      console.log(error);
-    }
-  };
   const removeProduct = async (id) => {
     try {
       await api.delete(`/products/${id}`);
@@ -129,16 +118,6 @@ const ProductContextProvider = ({ children }) => {
     );
   };
 
-  const updateEvaluate = async (productValue) => {
-    // const response = await api.put(`/products/${productValue.id}`, productValue);
-    // const { id, name, email,rate } = response.data;
-    // setProducts(
-    //   products.map((product) => {
-    //     return product.id === id ? { ...response.data,rate: ratingValue } : product;
-    //   })
-    // );
-    console.log(productValue);
-  };
   useEffect(() => {
     const getdatas = async () => {
       const allProducts = await received();
@@ -146,23 +125,8 @@ const ProductContextProvider = ({ children }) => {
     };
     getdatas();
   }, []);
-
-  useEffect(() => {
-    const getdatasOrdered = async () => {
-      const allOrders = await getOrder();
-      if (allOrders) setorderedItems(allOrders);
-    };
-    getdatasOrdered();
-  }, []);
-  useEffect(() => {
-    const getdatasEvualate = async () => {
-      const allEvualate = await getEvualudate();
-      if (allEvualate) setEvualates(allEvualate);
-    };
-    getdatasEvualate();
-  }, []);
+  // handle increase the number of product in cart
   const handleAddClick = (productValue) => {
-    console.log(productValue);
     const currentProduct = cartItems.find((x) => x.id === productValue.id);
     if (currentProduct) {
       setCartItems(
@@ -184,7 +148,7 @@ const ProductContextProvider = ({ children }) => {
       );
     }
   };
-
+  // handle decrease the number of product in cart
   const handleRemoveClick = (productValue) => {
     const currentProduct = cartItems.find((x) => x.id === productValue.id);
     if (currentProduct.count === 1) {
@@ -225,15 +189,7 @@ const ProductContextProvider = ({ children }) => {
       );
     }
   };
-  // const handleRemoveProductFromAdmin = async (id) => {
-  //   try {
-  //     await axios.delete(`http://localhost:3000/products/${id}`);
-  //     const productValue = products.filter((product) => product.id !== id);
-  //     setProducts(productValue);
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
+  // handle remove all product from cart
   const handleClearAll = (value) => {
     if (value) {
       localStorage.removeItem("cartItems");
@@ -241,12 +197,7 @@ const ProductContextProvider = ({ children }) => {
     }
     localStorage.removeItem("orders");
   };
-  // const takeOrderValues = (value) => {
-  //   if (value) {
-  //     setOrders([{ ...orders, ...value }]);
-  //   }
-  //   return;
-  // };
+  // handle remove each product from cart
   const handleRemoveProduct = (id) => {
     const currentProduct = cartItems.find((x) => x.id === id);
     const cartValue = [...cartItems];
@@ -258,6 +209,8 @@ const ProductContextProvider = ({ children }) => {
       JSON.stringify(cartValue.filter((item) => item.id !== id))
     );
   };
+
+  // handle Add To Cart from product Page
   const handleAddToCart = (productValue) => {
     const cartValues = [...cartItems];
     const alreadyInCart = cartItems.every((item) => {
@@ -277,6 +230,7 @@ const ProductContextProvider = ({ children }) => {
     setCartItems(cartValues);
     localStorage.setItem("cartItems", JSON.stringify(cartValues));
   };
+  // handle Add To Cart from product detail Page
   const handleAddToCartFromDetails = (productValue) => {
     if (productValue.count === 0) {
       alert("You have to enter your number of product");
@@ -302,56 +256,27 @@ const ProductContextProvider = ({ children }) => {
       setCartItems(cartValues);
     }
   };
-
+  // handle sort Product by price
   const handleSortProducts = (event) => {
-    console.log(event.target.value);
-    const sortValue = event.target.value;
-    setSort(sortValue);
-    const newProductList = [...products];
-    newProductList.sort((a, b) =>
-      sort === "Lowest"
-        ? a.price < b.price
-          ? 1
-          : -1
-        : sort === "Highest"
-        ? a.price > b.price
-          ? 1
-          : -1
-        : a.id < b.id
-        ? 1
-        : -1
-    );
-    setProducts(newProductList);
+    // const sortValue = event.target.value;
+    // setSort(sortValue);
+    // const newProductList = [...products];
+    // newProductList.sort((a, b) =>
+    //   sort === "Lowest"
+    //     ? a.price < b.price
+    //       ? 1
+    //       : -1
+    //     : sort === "Highest"
+    //     ? a.price > b.price
+    //       ? 1
+    //       : -1
+    //     : a.id < b.id
+    //     ? 1
+    //     : -1
+    // );
+    // setProducts(newProductList);
   };
-  const handleSortCategory = (event) => {
-    const categoryValue = event.target.value;
-    if (categoryValue === "") {
-      return;
-    } else if (categoryValue === "All") {
-      setCategory(categoryValue);
-      setProducts(data.products);
-    } else if (categoryValue === "Trousers") {
-      setCategory(categoryValue);
-      setProducts(
-        data.products.filter((product) => product.category === categoryValue)
-      );
-    } else if (categoryValue === "Coats") {
-      setCategory(categoryValue);
-      setProducts(
-        data.products.filter((product) => product.category === categoryValue)
-      );
-    } else if (categoryValue === "T-Shirts") {
-      setCategory(categoryValue);
-      setProducts(
-        data.products.filter((product) => product.category === categoryValue)
-      );
-    } else {
-      setCategory(categoryValue);
-      setProducts(
-        data.products.filter((product) => product.category === categoryValue)
-      );
-    }
-  };
+
   const handleSearchSubmit = (search) => {
     setSearchTerm(search);
   };
@@ -370,9 +295,9 @@ const ProductContextProvider = ({ children }) => {
     productFilter,
     totalPrice,
     setTotalPrice,
+    setSort,
     handleSortProducts,
     handleFilterProducts,
-    handleSortCategory,
     handleAddToCart,
     handleAddToCartFromDetails,
     handleAddClick,
@@ -388,13 +313,10 @@ const ProductContextProvider = ({ children }) => {
     setIsFilter,
     orderedItems,
     deleteOrder,
-    updateEvaluate,
     // takeOrderValues,
     orderDetails,
     setOrderDetails,
     saveOrder,
-    addEvualuate,
-    evualates,
   };
   return (
     <ProductContext.Provider value={productContextData}>

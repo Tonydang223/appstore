@@ -1,13 +1,38 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, makeStyles, ButtonGroup, Button} from '@material-ui/core';
-import React, { useContext } from 'react'
+import React, { useContext,useState } from 'react'
 import { Link } from 'react-router-dom';
 import { UsersContext } from '../../contexts/UsersContext';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import TextField from "@material-ui/core/TextField";
+import SearchSharpIcon from '@material-ui/icons/SearchSharp';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import SearchIcon from "@material-ui/icons/Search";
+import "../../css/RemoveUnderline.scss";
 
 const ManageAccount = () => {
     const {users,removeUsers} = useContext(UsersContext)
     console.log(users);
+    const[searchAccount,setAccount] = useState("")
+    const onChange = (e) => {
+      e.preventDefault();
+      setAccount(e.target.value);
+    };
+    const searchValueAccount = (val) => {
+      const filterAccount = val.filter((acc) => {
+        if (searchAccount === "") {
+          return acc;
+        } else if  (
+          acc.firstName.toLowerCase().includes(searchAccount.toLowerCase()) ||
+          acc.email.toLowerCase().includes(searchAccount.toLowerCase()) ||
+          acc.password.toLowerCase().includes(searchAccount.toLowerCase()) ||
+          acc.LastName.toString().includes(searchAccount.toLowerCase())
+        ) {
+          return acc;
+        }
+      });
+      return filterAccount;
+    };
     const useStyles = makeStyles({
       table: {
         minWidth: 300,
@@ -34,7 +59,24 @@ const ManageAccount = () => {
     });
     const classes = useStyles();
     return (
-        <TableContainer component={Paper}>
+      <>
+      <TextField
+          id="standard-secondary"
+          label="Search"
+          color="secondary"
+          name="search"
+          value={searchAccount}
+          style={{marginBottom:"50px",width:"200px"}}
+          onChange={onChange}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+             )
+      }}></TextField>
+      <div>
+      <TableContainer component={Paper}>
         <Table aria-label="simple table" className={classes.table}>
           <TableHead >
             <TableRow className={classes.thead}>
@@ -47,7 +89,7 @@ const ManageAccount = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {users.map(user => (
+            {searchValueAccount(users).map(user => (
               <TableRow key={user.id}>
                 <TableCell>{user.id}</TableCell>
                 <TableCell>
@@ -67,6 +109,9 @@ const ManageAccount = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      </div>
+        
+    </>
     )
 }
 

@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { ProductContext } from "../../contexts/ProductContext";
 import { UsersContext } from "../../contexts/UsersContext";
-import "../../css/ProductList.scss";
+import "./ProductList.scss";
 import Fade from "react-reveal/Fade";
 import { Result, Button } from "antd";
 import ReactPaginate from "react-paginate";

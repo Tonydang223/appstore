@@ -43,6 +43,7 @@ export default function PaymentForm({
         onSubmit={(values, { setSubmitting, resetForm }) => {
           console.log(JSON.stringify(values, null, 2));
           const newValue = { ...value, ...values };
+          console.log(newValue);
           setValue(newValue);
           handleNextStep();
           resetForm();

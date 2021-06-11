@@ -59,6 +59,7 @@ export default function AddressForm({ handleNextStep, setValue, value }) {
             products: cartItems,
             isShipping: false,
           };
+          console.log(newValue);
           setValue(newValue);
           handleNextStep();
           resetForm();

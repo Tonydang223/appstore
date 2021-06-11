@@ -16,11 +16,7 @@ import "./style.css";
 const MainPage = () => {
   const { products, handleAddToCart } = useContext(ProductContext);
   const productBestSeller = products.slice(0, 6);
-
-  const startDetail = productBestSeller.map((product) =>
-    product.rate.map((el) => el.star)
-  );
-
+  
   return (
     <>
       <div className="hero">

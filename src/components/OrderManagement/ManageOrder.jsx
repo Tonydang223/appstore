@@ -17,6 +17,12 @@ import { UsersContext } from "../../contexts/UsersContext";
 import DetailsIcon from "@material-ui/icons/Details";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Modal from "../Modal";
+import TextField from "@material-ui/core/TextField";
+import SearchSharpIcon from '@material-ui/icons/SearchSharp';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import SearchIcon from "@material-ui/icons/Search";
+import "../../css/RemoveUnderline.scss";
+
 
 const ManageOrder = () => {
   const { handleRemoveProduct, orderedItems, deleteOrder } =
@@ -32,6 +38,27 @@ const ManageOrder = () => {
   const handleTab = (orderId) => {
     toggleModal();
     setOrderID(orderId);
+  };
+  const[searchOrder,setsearchOrder] = useState("")
+  const onChange = (e) => {
+    e.preventDefault();
+    setsearchOrder(e.target.value);
+  };
+  const searchValueOrder = (val) => {
+    const filterOrder = val.filter((item) => {
+      if (searchOrder === "") {
+        return item;
+      } else if  (
+        item.firstName.toLowerCase().includes(searchOrder.toLowerCase()) ||
+        item.address.toLowerCase().includes(searchOrder.toLowerCase()) ||
+        item.phoneNumber.toString().includes(searchOrder.toLowerCase()) 
+        // item.nameOfCard.toLowerCase().includes(searchOrder.toLowerCase()) >-1
+        // item.cardNumber.toString().includes(searchOrder.toLowerCase())
+      ) {
+        return item;
+      }
+    });
+    return filterOrder;
   };
   const useStyles = makeStyles({
     table: {
@@ -86,6 +113,22 @@ const ManageOrder = () => {
   console.log(orderDetails);
   return (
     <>
+     <TextField
+          id="standard-secondary"
+          label="Search"
+          color="secondary"
+          name="search"
+          value={searchOrder}
+          style={{marginBottom:"50px",width:"200px"}}
+          onChange={onChange}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+             )
+            }}
+        />
       <Modal {...configModal}>
         {/* {orderedItems.map(order=>order.products.map(
 
@@ -161,7 +204,7 @@ const ManageOrder = () => {
               </TableCell>
             </TableRow>
           </TableHead>
-          {orderedItems.map((item) => (
+          {searchValueOrder(orderedItems).map((item) => (
             <TableRow key={item.id}>
               <TableCell>{item.id}</TableCell>
               <TableCell>{item.firstName}</TableCell>

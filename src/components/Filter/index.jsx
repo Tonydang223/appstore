@@ -1,19 +1,20 @@
 import React, { useContext, useState } from "react";
 import { ProductContext } from "../../contexts/ProductContext";
-import "../../css/Filter.scss";
+import "./Filter.scss";
 
 const Filter = ({ handleSubmit, products }) => {
   const [search, setSearch] = useState("");
+
   const {
     size,
     setSize,
     sort,
     category,
     setCategory,
-    handleSortCategory,
     handleFilterProducts,
     handleSortProducts,
     setIsFilter,
+    setSort,
   } = useContext(ProductContext);
   const handleSearch = (e) => {
     e.preventDefault();
@@ -49,6 +50,26 @@ const Filter = ({ handleSubmit, products }) => {
       handleFilterProducts(product);
     }
   };
+  const handleSortProductByPrice = (e) => {
+    const sortValue = e.target.value;
+    setSort(sortValue);
+    const productsFilter = [...products];
+    const product = productsFilter.sort((a, b) =>
+      sort === "Lowest"
+        ? a.price < b.price
+          ? 1
+          : -1
+        : sort === "Highest"
+        ? a.price > b.price
+          ? 1
+          : -1
+        : a.id < b.id
+        ? 1
+        : -1
+    );
+    setIsFilter(true);
+    handleFilterProducts(product);
+  };
   const style = {
     display: "flex",
   };
@@ -76,7 +97,7 @@ const Filter = ({ handleSubmit, products }) => {
       <div className="filter__content--right">
         <div className="filter__content--sort">
           Order{" "}
-          <select value={sort} onChange={handleSortProducts}>
+          <select value={sort} onChange={handleSortProductByPrice}>
             <option value="Latest">Latest</option>
             <option value="Lowest">Lowest</option>
             <option value="Highest">Highest</option>

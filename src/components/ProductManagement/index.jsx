@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import "../../css/ProductManagement.scss";
+import "./ProductManagement.scss";
 import ProductForm from "../ProductsForm";
 import EditForm from "../ProductsForm/EditForm";
 import Header from "./header";

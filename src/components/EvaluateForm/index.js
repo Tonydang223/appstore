@@ -77,7 +77,7 @@ const EvaluateForm = (props) => {
       ) {
         alert("you must provide a rating");
       } else {
-        const rating = rate.push(ratingValue);
+        rate.push(ratingValue);
         const newValue = {
           availableSizes: availableSizes,
           category: category,

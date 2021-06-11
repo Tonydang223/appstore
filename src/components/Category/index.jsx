@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import '../../css/Category.scss'
+import "./Category.scss";
 const Category = () => {
   const style = {
     textDecoration: "none",
